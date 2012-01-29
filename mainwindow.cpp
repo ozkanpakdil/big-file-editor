@@ -9,10 +9,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    connect((QObject*)ui->textEdit->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrollTheFile(int)));
 }
 
 MainWindow::~MainWindow()
 {
+    if(!file){
+        file->close();
+        delete file;
+    }
     delete ui;
 }
 
@@ -40,7 +46,23 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionOpen_triggered()
 {
+    QFontMetrics fm(ui->textEdit->currentFont());
     fileName = QFileDialog::getOpenFileName(this,
          tr("Open File"), "~", tr("Any File (*.*)"));
+
+    int lineCount=10;
+    lineCount=this->height()/(fm.height());
+
+    file= new QFile(fileName);
+    qDebug()<<"açtýmý:"<<file->open(QIODevice::ReadOnly | QIODevice::Text);
+
+    for(int i=0;i<lineCount;i++)
+        ui->textEdit->append(file->readLine().trimmed());
+
     qDebug()<<"file:"<<fileName;
+    qDebug()<<"lineCount:"<<lineCount;
+}
+
+void MainWindow::scrollTheFile(int neki){
+    qDebug()<<"gelen:"<<neki;
 }
