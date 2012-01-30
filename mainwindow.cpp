@@ -3,6 +3,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDebug>
+#include <QWheelEvent>
+#include <QInputDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -11,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     connect((QObject*)ui->textEdit->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrollTheFile(int)));
+
 }
 
 MainWindow::~MainWindow()
@@ -50,19 +53,64 @@ void MainWindow::on_actionOpen_triggered()
     fileName = QFileDialog::getOpenFileName(this,
          tr("Open File"), "~", tr("Any File (*.*)"));
 
-    int lineCount=10;
-    lineCount=this->height()/(fm.height());
+    pageSize=this->height()/(fm.height());
 
     file= new QFile(fileName);
-    qDebug()<<"açtýmý:"<<file->open(QIODevice::ReadOnly | QIODevice::Text);
+    qDebug()<<"file opened:"<<file->open(QIODevice::ReadOnly | QIODevice::Text);
 
-    for(int i=0;i<lineCount;i++)
+    for(int i=0;i<pageSize;i++)
         ui->textEdit->append(file->readLine().trimmed());
 
     qDebug()<<"file:"<<fileName;
-    qDebug()<<"lineCount:"<<lineCount;
+    qDebug()<<"lineCount:"<<pageSize;
 }
 
-void MainWindow::scrollTheFile(int neki){
-    qDebug()<<"gelen:"<<neki;
+void MainWindow::scrollTheFile(int lineIndex){
+    if(fileName.trimmed()=="")
+        return;
+
+    if(!file->isOpen())
+        return;
+
+    if(lineNumberFromWheel > lineIndex){
+        //NOTE:scrolling up
+
+    }else{
+        //scrolling down
+    }
+    lineNumberFromWheel=lineIndex;
+    qDebug()<<"line index:"<<lineIndex;
+}
+
+void MainWindow::wheelEvent(QWheelEvent *turning){
+    if(fileName.trimmed()=="")
+        return;
+    qDebug()<<"wheel:"<<turning->delta();
+    if(turning->delta()>0){
+        //mouse wheel up
+    }else{
+        //mouse wheel down
+        for(int i=0;i<pageSize;i++)
+            ui->textEdit->append(file->readLine().trimmed());
+    }
+}
+
+void MainWindow::on_actionGo_to_line_triggered()
+{
+    if(!isFileOpened()){
+        QMessageBox::warning(this,"Open File First","You need to open a file first.");
+        return;
+    }
+
+    bool ok;
+    int gotoLineNumber = QInputDialog::getInteger(this, tr("Input Line Number"),
+                                              tr("Line Number:"), QLineEdit::Normal,
+                                              0,99999999999999999,10,&ok);
+    if(ok && gotoLineNumber>0){
+        for(int i=ui->textEdit->document()->lineCount();i<gotoLineNumber;i++){
+            ui->textEdit->append(file->readLine().trimmed());
+            qApp->processEvents();
+        }
+
+    }
 }
