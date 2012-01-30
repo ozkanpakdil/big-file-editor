@@ -1,2 +1,15 @@
 this project's aim is to help who needs to open up a big file and 
 have to browse on it on windows.
+
+Implemented Tasks
+
+- open very big file done.
+- mouse wheel and go down in the file done.
+- Ctrl+L and go to line done. this ability can be improved.
+
+Future Tasks
+
+- catch page up page down or arrow keys for reading file line by line or pageSize pageSize nok.
+- go to end of file nok.
+- search in the file nok.
+- change file and save it nok.
