@@ -3,10 +3,12 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    texteditor.cpp
 
 HEADERS  += mainwindow.h \
-    version.h
+    version.h \
+    texteditor.h
 
 FORMS    += mainwindow.ui
 

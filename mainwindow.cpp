@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QWheelEvent>
 #include <QInputDialog>
+#include <QScrollBar>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -79,20 +80,22 @@ void MainWindow::scrollTheFile(int lineIndex){
         //scrolling down
     }
     lineNumberFromWheel=lineIndex;
-    qDebug()<<"line index:"<<lineIndex;
+    //qDebug()<<"line index:"<<lineIndex;
 }
 
 void MainWindow::wheelEvent(QWheelEvent *turning){
     if(fileName.trimmed()=="")
         return;
-    qDebug()<<"wheel:"<<turning->delta();
+    //qDebug()<<"wheel:"<<turning->delta();
     if(turning->delta()>0){
         //mouse wheel up
     }else{
         //mouse wheel down
         for(int i=0;i<pageSize;i++)
-            ui->textEdit->append(file->readLine().trimmed());
+             if(!file->atEnd())
+                 ui->textEdit->append(file->readLine().trimmed());
     }
+    qDebug()<<"pos:"<< file->pos();
 }
 
 void MainWindow::on_actionGo_to_line_triggered()
@@ -106,11 +109,23 @@ void MainWindow::on_actionGo_to_line_triggered()
     int gotoLineNumber = QInputDialog::getInteger(this, tr("Input Line Number"),
                                               tr("Line Number:"), QLineEdit::Normal,
                                               0,99999999999999999,10,&ok);
-    if(ok && gotoLineNumber>0){
+    if(ok && gotoLineNumber>ui->textEdit->document()->lineCount()){
+        qDebug()<<"pos:"<< file->pos();
+        /*file->seek(gotoLineNumber);
+        for(int i=ui->textEdit->document()->lineCount();i<gotoLineNumber-pageSize;i++){
+            file->readLine();
+        }*/
+        ui->textEdit->clear();
         for(int i=ui->textEdit->document()->lineCount();i<gotoLineNumber;i++){
-            ui->textEdit->append(file->readLine().trimmed());
+            if(!file->atEnd())
+                ui->textEdit->append(file->readLine().trimmed());
             qApp->processEvents();
         }
-
     }
+    /*
+    ui->textEdit->textCursor().setPosition(gotoLineNumber);
+    ui->textEdit->moveCursor(QTextCursor::StartOfLine,QTextCursor::MoveAnchor);
+    QScrollBar *scroll =ui->textEdit->verticalScrollBar();
+    scroll->scroll(10,0);*/
+
 }
