@@ -34,6 +34,10 @@ private slots:
     void on_actionAbout_triggered();
     void on_actionQuit_triggered();
     void scrollTheFile(int);
+    void goLine(int);
+    void goPage(int);
+    void goToEOF();
+    void cursorPositionChanged();
     void wheelEvent(QWheelEvent*);
     void on_actionGo_to_line_triggered();
 };

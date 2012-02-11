@@ -6,6 +6,10 @@
 #include <QWheelEvent>
 #include <QInputDialog>
 #include <QScrollBar>
+#include <QTextCursor>
+#include <QTextBlock>
+#include <QStringBuilder>
+#include <QDateTime>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,6 +18,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     connect((QObject*)ui->textEdit->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrollTheFile(int)));
+    connect((QObject*)ui->textEdit, SIGNAL(goLine(int)), this, SLOT(goLine(int)));
+    connect((QObject*)ui->textEdit, SIGNAL(goPage(int)), this, SLOT(goPage(int)));
+    connect((QObject*)ui->textEdit, SIGNAL(goToEOF()), this, SLOT(goToEOF()));
+
+    connect((QObject*)ui->textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChanged()));
 
 }
 
@@ -50,7 +59,7 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QFontMetrics fm(ui->textEdit->currentFont());
+    QFontMetrics fm(ui->textEdit->font());
     fileName = QFileDialog::getOpenFileName(this,
          tr("Open File"), "~", tr("Any File (*.*)"));
 
@@ -60,17 +69,14 @@ void MainWindow::on_actionOpen_triggered()
     qDebug()<<"file opened:"<<file->open(QIODevice::ReadOnly | QIODevice::Text);
 
     for(int i=0;i<pageSize;i++)
-        ui->textEdit->append(file->readLine().trimmed());
+        ui->textEdit->appendPlainText(file->readLine().trimmed());
 
     qDebug()<<"file:"<<fileName;
     qDebug()<<"lineCount:"<<pageSize;
 }
 
 void MainWindow::scrollTheFile(int lineIndex){
-    if(fileName.trimmed()=="")
-        return;
-
-    if(!file->isOpen())
+    if(!isFileOpened())
         return;
 
     if(lineNumberFromWheel > lineIndex){
@@ -83,6 +89,31 @@ void MainWindow::scrollTheFile(int lineIndex){
     //qDebug()<<"line index:"<<lineIndex;
 }
 
+void MainWindow::goLine(int sign){
+    qDebug()<<"goLine:"<<sign;
+    if(!isFileOpened())
+        return;
+
+    if(sign==1){//key arrow down
+        if(!file->atEnd())
+            ui->textEdit->appendPlainText(file->readLine().trimmed());
+    }
+    if(sign==-1){//key arrow up
+    }
+}
+void MainWindow::goPage(int sign){
+    qDebug()<<"goPage:"<<sign;
+    if(!isFileOpened())
+        return;
+    if(sign==1){//page down
+        for(int i=0;i<pageSize;i++)
+            if(!file->atEnd())
+                ui->textEdit->appendPlainText(file->readLine().trimmed());
+    }
+    if(sign==-1){//page up
+    }
+}
+
 void MainWindow::wheelEvent(QWheelEvent *turning){
     if(fileName.trimmed()=="")
         return;
@@ -93,9 +124,9 @@ void MainWindow::wheelEvent(QWheelEvent *turning){
         //mouse wheel down
         for(int i=0;i<pageSize;i++)
              if(!file->atEnd())
-                 ui->textEdit->append(file->readLine().trimmed());
+                 ui->textEdit->appendPlainText(file->readLine().trimmed());
     }
-    qDebug()<<"pos:"<< file->pos();
+    //qDebug()<<"pos:"<< file->pos();
 }
 
 void MainWindow::on_actionGo_to_line_triggered()
@@ -108,24 +139,52 @@ void MainWindow::on_actionGo_to_line_triggered()
     bool ok;
     int gotoLineNumber = QInputDialog::getInteger(this, tr("Input Line Number"),
                                               tr("Line Number:"), QLineEdit::Normal,
-                                              0,99999999999999999,10,&ok);
+                                              0,999999999,10,&ok);
     if(ok && gotoLineNumber>ui->textEdit->document()->lineCount()){
-        qDebug()<<"pos:"<< file->pos();
-        /*file->seek(gotoLineNumber);
-        for(int i=ui->textEdit->document()->lineCount();i<gotoLineNumber-pageSize;i++){
-            file->readLine();
-        }*/
         ui->textEdit->clear();
         for(int i=ui->textEdit->document()->lineCount();i<gotoLineNumber;i++){
             if(!file->atEnd())
-                ui->textEdit->append(file->readLine().trimmed());
+                ui->textEdit->appendPlainText(file->readLine().trimmed());
             qApp->processEvents();
         }
-    }
-    /*
-    ui->textEdit->textCursor().setPosition(gotoLineNumber);
-    ui->textEdit->moveCursor(QTextCursor::StartOfLine,QTextCursor::MoveAnchor);
-    QScrollBar *scroll =ui->textEdit->verticalScrollBar();
-    scroll->scroll(10,0);*/
 
+    }
+    if(ok && gotoLineNumber<ui->textEdit->document()->lineCount()){
+        int pos = ui->textEdit->document()->findBlockByLineNumber(gotoLineNumber-1).position();
+        QTextCursor cursor = ui->textEdit->textCursor();
+        cursor.setPosition(pos);
+        ui->textEdit->setTextCursor(cursor);
+        qDebug()<<"gone:"<<gotoLineNumber;
+    }
+}
+
+void MainWindow::goToEOF(){
+    if(!isFileOpened())
+        return;
+    ui->textEdit->setVisible(false);
+    long i=0;
+    QString bufferim;
+    try{
+        while(!file->atEnd()){
+            bufferim.append( file->readLine() );
+            i++;
+            if(i%10000==0){
+                ui->textEdit->appendPlainText(bufferim);
+                //ui->textEdit->document()->setPlainText(ui->textEdit->document()->toPlainText().append( bufferim));
+                bufferim.clear();
+                qApp->processEvents();
+                qDebug()<<"date:"<<QTime::currentTime()<<"file line:"<<i;
+            }
+        }
+        if(!bufferim.isEmpty())
+            ui->textEdit->appendPlainText(bufferim);
+    }catch(...){
+
+    }
+    qDebug()<<"file line:"<<i;
+    ui->textEdit->setVisible(true);
+}
+
+void MainWindow::cursorPositionChanged(){
+    //ui->statusBar->showMessage("current line:" + QString::number( ui->textEdit->textCursor().blockNumber()) );
 }
