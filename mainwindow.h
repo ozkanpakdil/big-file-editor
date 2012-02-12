@@ -28,6 +28,7 @@ private:
     QFile *file;
     int lineNumberFromWheel;
     int pageSize;
+    long currentFileLineNumber;
 
 private slots:
     void on_actionOpen_triggered();
@@ -40,6 +41,7 @@ private slots:
     void cursorPositionChanged();
     void wheelEvent(QWheelEvent*);
     void on_actionGo_to_line_triggered();
+    void on_actionSave_triggered();
 };
 
 #endif // MAINWINDOW_H
