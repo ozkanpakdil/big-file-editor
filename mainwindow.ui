@@ -46,6 +46,7 @@
     <addaction name="actionSave"/>
     <addaction name="actionGo_to_line"/>
     <addaction name="actionQuit"/>
+    <addaction name="actionSearch"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -95,6 +96,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionSearch">
+   <property name="text">
+    <string>Search</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
    </property>
   </action>
  </widget>

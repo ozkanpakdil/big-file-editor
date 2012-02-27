@@ -29,7 +29,8 @@ private:
     int lineNumberFromWheel;
     int pageSize;
     long currentFileLineNumber;
-
+    long findTotalFileLineNumbers();
+    QString readLineFromFile();
 private slots:
     void on_actionOpen_triggered();
     void on_actionAbout_triggered();
@@ -42,6 +43,7 @@ private slots:
     void wheelEvent(QWheelEvent*);
     void on_actionGo_to_line_triggered();
     void on_actionSave_triggered();
+    void on_actionSearch_triggered();
 };
 
 #endif // MAINWINDOW_H
