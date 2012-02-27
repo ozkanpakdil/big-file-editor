@@ -6,12 +6,12 @@ http://youtu.be/nYun58jPUtw
 
 Implemented Tasks
 
-- open very big file done.
-- mouse wheel and go down in the file done.
-- Ctrl+L and go to line done. this ability can be improved.
-- catch page up page down or arrow keys for reading file line by line or pageSize pageSize done.
-- go to end of file done.
-- change file and save it nok.(actually for sequential progress it works fine. but if you went to line 14 million it can not save it yet.)
-- search in the file nok.
+- open very big file.
+- mouse wheel and go down in the file.
+- Ctrl+L and go to line. this ability can be improved.
+- catch page up page down or arrow keys for reading file line by line or pageSize pageSize.
+- go to end of file.
+- change file and save it.
+- search in the file.
 
 now I need tests....
