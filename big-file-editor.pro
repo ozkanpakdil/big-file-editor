@@ -16,7 +16,12 @@ FORMS    += mainwindow.ui
 RESOURCES +=
 
 OTHER_FILES += \
-    big-file-editor.rc
+    big-file-editor.rc \
+    license.txt \
+    beforeinstall.txt \
+    afterinstall.txt
 
 
 RC_FILE = big-file-editor.rc
+
+QT += network

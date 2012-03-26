@@ -57,7 +57,7 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionAbout_triggered()
 {
-    QMessageBox::about(this,"Big File Editor","Opens big files mostly more then GBs");
+    QMessageBox::about(this,"Big File Editor","Opens big files mostly more then GBs <br />for any problem feel free to contact via <a href='http://mascix.com'>my site</a>");
 }
 
 void MainWindow::on_actionOpen_triggered()

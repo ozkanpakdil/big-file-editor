@@ -45,8 +45,8 @@
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
     <addaction name="actionGo_to_line"/>
-    <addaction name="actionQuit"/>
     <addaction name="actionSearch"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
