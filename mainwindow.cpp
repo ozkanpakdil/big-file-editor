@@ -388,3 +388,8 @@ void MainWindow::on_actionSearch_triggered()
         }
     }
 }
+
+void MainWindow::on_actionGo_to_end_of_file_triggered()
+{
+    goToEOF();
+}

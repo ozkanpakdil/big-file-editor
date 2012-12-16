@@ -37,7 +37,7 @@ public:
                                  tr("An unexpected error occurred"),
                                  tr("This is likely a bug."));
             QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-            QString winVer=QSysInfo::windowsVersion();
+            QString winVer=(QString)QSysInfo::windowsVersion();
             manager->get(QNetworkRequest(QUrl("http://mascix.com/bigfileeditor.jsp?winVer="+winVer)));
             qDebug()<<"http://mascix.com/bigfileeditor.jsp?winVer="+winVer;
         }

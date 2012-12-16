@@ -44,6 +44,7 @@ private slots:
     void on_actionGo_to_line_triggered();
     void on_actionSave_triggered();
     void on_actionSearch_triggered();
+    void on_actionGo_to_end_of_file_triggered();
 };
 
 #endif // MAINWINDOW_H
