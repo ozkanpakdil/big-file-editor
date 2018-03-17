@@ -1,3 +1,5 @@
+#lessThan(QT_MAJOR_VERSION, 5): error("requires Qt 5")
+
 TARGET = big-file-editor
 TEMPLATE = app
 
@@ -24,4 +26,4 @@ OTHER_FILES += \
 
 RC_FILE = big-file-editor.rc
 
-QT += widgets network gui
+QT += core widgets network gui concurrent
