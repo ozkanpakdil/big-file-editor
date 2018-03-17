@@ -7,9 +7,13 @@ install:
   - set QTDIR=C:\Qt\5.10.1\msvc2017_64
   - choco install -y InnoSetup
   - set PATH=%QTDIR%\bin;%QTDIR%\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
+
 build_script:
-  - qmake big-file-editor.pro
-  - %make%
+ - cd %APPVEYOR_BUILD_FOLDER%
+ - cmake . -G "%CMAKE_GENERATOR%" -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DCMAKE_BUILD_TYPE=Release -DQT5=Yes
+ - '%make% VERBOSE=1'
+ - if not %QTDIR:msvc=%==%QTDIR% %make% package
+ 
 after_build:
   - iscc big-file-editor-installer.iss
 
