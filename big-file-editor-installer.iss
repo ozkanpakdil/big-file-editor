@@ -21,12 +21,12 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-LicenseFile=C:\Users\opakdil\Documents\Projects\big-file-editor\license.txt
-InfoBeforeFile=C:\Users\opakdil\Documents\Projects\big-file-editor\beforeinstall.txt
-InfoAfterFile=C:\Users\opakdil\Documents\Projects\big-file-editor\afterinstall.txt
-OutputDir=C:\Temp
+LicenseFile=license.txt
+InfoBeforeFile=beforeinstall.txt
+InfoAfterFile=afterinstall.txt
+OutputDir={pf}\mascix\{#MyAppName}
 OutputBaseFilename=setupbigfileeditor
-SetupIconFile=C:\Users\opakdil\Documents\Projects\big-file-editor\Notepad-icon.ico
+SetupIconFile=Notepad-icon.ico
 Compression=lzma
 SolidCompression=yes
 
@@ -38,10 +38,12 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "C:\Users\opakdil\Documents\Projects\big-file-editor\release\big-file-editor.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\QtSDK\Desktop\Qt\4.8.0\msvc2010\bin\QtGui4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\QtSDK\Desktop\Qt\4.8.0\msvc2010\bin\QtCore4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\QtSDK\Desktop\Qt\4.8.0\msvc2010\bin\QtNetwork4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\big-file-editor.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\Qt5Charts.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
