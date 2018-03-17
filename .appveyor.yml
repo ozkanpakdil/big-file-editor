@@ -1,0 +1,21 @@
+branches:
+  only:
+    - master
+    - devel
+
+install:
+  - set QTDIR=C:\Qt\5.8\mingw53_32
+  - choco install -y InnoSetup
+  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw530_32\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
+build_script:
+  - qmake big-file-editor.pro
+  - mingw32-make
+after_build:
+  - windeployqt release/big-file-editor.exe
+  - cmd: cp LICENSE release/LICENSE.txt"
+  - iscc big-file-editor-installer.iss.iss
+
+artifacts:
+  - path: Output\*.exe
+  - path: release
+    type: zip
