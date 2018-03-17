@@ -156,9 +156,8 @@ void MainWindow::on_actionGo_to_line_triggered()
     }
 
     bool ok;
-    int gotoLineNumber = QInputDialog::getInteger(this, tr("Input Line Number"),
-                                              tr("Line Number:"), QLineEdit::Normal,
-                                              0,999999999,10,&ok);
+    int gotoLineNumber = QInputDialog::getDouble(this, tr("Input Line Number"),
+                                                  tr("Line Number:"), 25, 0, 100, 1,&ok);
     if(ok && gotoLineNumber>ui->textEdit->document()->lineCount()){
         ui->textEdit->setVisible(false);
         ui->textEdit->clear();
