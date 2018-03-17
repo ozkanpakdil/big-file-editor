@@ -11,8 +11,6 @@ compiler:
 dist: trusty
 
 env:
-  - QT=5  BREW=
-  - QT=5  BREW=ex   PPA=ubuntu-sdk-team/ppa
   - QT=59 BREW=ex   PPA=beineri/opt-qt593-trusty
   - QT=510 BREW=@5.10
 
@@ -22,7 +20,6 @@ matrix:
     - { os: osx, compiler: gcc, env: QT=5  BREW= }
     - { os: osx, compiler: gcc, env: QT=510 BREW=@5.10 }
   exclude:
-    - { os: osx, env: QT=5  BREW=ex   PPA=ubuntu-sdk-team/ppa      }
     - { os: osx, env: QT=59 BREW=ex   PPA=beineri/opt-qt593-trusty }
     - { os: linux, env: QT=510 BREW=@5.10 }
 
@@ -56,6 +53,6 @@ before_script:
 script:
   - make -C "$TRAVIS_BUILD_DIR-build" -j2 all
   - make -C "$TRAVIS_BUILD_DIR-build" -j2 check
-  - BIPOLAR_TEST_LOCALE=de_DE.UTF-8 make -C "$TRAVIS_BUILD_DIR-build" -j2 check
-  - '[ "$TRAVIS_OS_NAME" != osx ] || make -C "$TRAVIS_BUILD_DIR-build/pkg/osx" dmg'
+  - BIPOLAR_TEST_LOCALE=en_EN.UTF-8 make -C "$TRAVIS_BUILD_DIR-build" -j2 check
+  - '[ "$TRAVIS_OS_NAME" != osx ] || make -C "$TRAVIS_BUILD_DIR-build/" dmg'
 
