@@ -12,7 +12,7 @@ build_script:
   - mingw32-make
 after_build:
   - windeployqt release/big-file-editor.exe
-  - iscc big-file-editor-installer.iss.iss
+  - iscc big-file-editor-installer.iss
 
 artifacts:
   - path: Output\*.exe
