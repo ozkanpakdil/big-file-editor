@@ -18,7 +18,4 @@ after_build:
   - iscc big-file-editor-installer.iss
 
 artifacts:
- - path: *-win64.exe
-   name: Win64Installer
- - path: *-win32.exe
-   name: Win32Installer
+ - path: setupbigfileeditor.exe
