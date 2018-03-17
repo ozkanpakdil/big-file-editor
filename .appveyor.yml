@@ -12,7 +12,6 @@ build_script:
   - mingw32-make
 after_build:
   - windeployqt release/big-file-editor.exe
-  - cmd: cp LICENSE release/LICENSE.txt"
   - iscc big-file-editor-installer.iss.iss
 
 artifacts:
