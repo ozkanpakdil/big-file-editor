@@ -24,4 +24,4 @@ OTHER_FILES += \
 
 RC_FILE = big-file-editor.rc
 
-QT += network
+QT += widgets network gui
