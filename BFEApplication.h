@@ -7,6 +7,8 @@
 #include <exception>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>
+#include <QtConcurrent/QtConcurrent>
+#include <QMessageBox>
 
 class BFEApplication : public QApplication {
 public:
@@ -26,18 +28,15 @@ public:
             // catch anything thrown within try block that derives from std::exception
             qDebug() << exc.what();
         }
-        catch (QtConcurrent::Exception &exc)
-        {
-            // catch anything thrown within try block that derives from std::exception
-            qDebug() << exc.what();
-        }
         catch(...)
         {
             QMessageBox::warning(0,
                                  tr("An unexpected error occurred"),
                                  tr("This is likely a bug."));
             QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-            manager->get(QNetworkRequest(QUrl("http://mascix.com/bigfileeditor.jsp?winVer=")));
+            QString winVer=(QString)QSysInfo::prettyProductName();
+            manager->get(QNetworkRequest(QUrl("http://mascix.com/bigfileeditor.jsp?winVer="+winVer)));
+            qDebug()<<"http://mascix.com/bigfileeditor.jsp?winVer="+winVer;
         }
         return false;
     }
