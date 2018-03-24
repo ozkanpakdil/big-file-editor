@@ -14,3 +14,16 @@ after_build:
 
 artifacts:
  - path: setupbigfileeditor.exe
+
+deploy:
+  release: BigFileEditor-v$(appveyor_build_version)
+  description: 'Auto build from appveyor'
+  provider: GitHub
+  auth_token:
+    secure: df931bfdc9caf87a30c084ef7a81ee0b5b481906 # your encrypted token from GitHub
+  artifact: setupbigfileeditor.exe
+  draft: false
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only
