@@ -1,8 +1,7 @@
 environment:
   MSBUILD_FLAGS: /verbosity:minimal /maxcpucount
   matrix:
-  - CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
-    QT5: C:\Qt\5.9.4\msvc2017_64
+  - QT5: C:\Qt\5.10.1\mingw53_32
     
 branches:
   only:
@@ -14,10 +13,8 @@ install:
 
 build_script:
  - cd %APPVEYOR_BUILD_FOLDER%
- - dir
- - set
- - dir C:\Qt\5.9.4\msvc2017_64\bin
- - qmake 
+ - qmake
+ - mingw32-make
  
 after_build:
   - iscc big-file-editor-installer.iss
