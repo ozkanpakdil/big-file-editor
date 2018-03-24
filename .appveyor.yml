@@ -1,21 +1,13 @@
-environment:
-  MSBUILD_FLAGS: /verbosity:minimal /maxcpucount
-  matrix:
-  - QT5: C:\Qt\5.10.1\msvc2015_64
-    
-branches:
-  only:
-    - master
+image: Visual Studio 2017
 
 install:
   - set Path=%QT5%\bin;%Path%
   - choco install -y InnoSetup
 
-build_script:
- - cd %APPVEYOR_BUILD_FOLDER%
- - qmake big-file-editor.pro
- - nmake
- 
+before_build:
+  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64
+  - C:\Qt\5.9\msvc2017_64\bin\qmake.exe -tp vc
+  
 after_build:
   - iscc big-file-editor-installer.iss
 
