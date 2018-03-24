@@ -13,7 +13,7 @@ install:
 
 build_script:
  - cd %APPVEYOR_BUILD_FOLDER%
- - qmake
+ - qmake big-file-editor.pro
  - nmake
  
 after_build:
