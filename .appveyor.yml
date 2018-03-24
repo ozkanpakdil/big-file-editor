@@ -14,7 +14,7 @@ install:
 
 build_script:
  - cd %APPVEYOR_BUILD_FOLDER%
- - cmake . -G "%CMAKE_GENERATOR%" -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DCMAKE_BUILD_TYPE=Release -DQT5=Yes
+ - cmake . -G "MinGW Makefiles" -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DCMAKE_BUILD_TYPE=Release -DQT5=Yes
  
 after_build:
   - iscc big-file-editor-installer.iss
