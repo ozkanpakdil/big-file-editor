@@ -1,7 +1,7 @@
 environment:
   MSBUILD_FLAGS: /verbosity:minimal /maxcpucount
   matrix:
-  - QT5: C:\Qt\5.10.1\mingw53_32
+  - QT5: C:\Qt\5.10.1\msvc2015_64
     
 branches:
   only:
@@ -14,7 +14,7 @@ install:
 build_script:
  - cd %APPVEYOR_BUILD_FOLDER%
  - qmake
- - mingw32-make
+ - nmake
  
 after_build:
   - iscc big-file-editor-installer.iss
