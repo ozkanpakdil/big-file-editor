@@ -2,7 +2,7 @@ environment:
   MSBUILD_FLAGS: /verbosity:minimal /maxcpucount
   matrix:
   - CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
-    QT5: C:\Qt\5.10.1\msvc2017_64
+    QT5: C:\Qt\5.9.4\msvc2017_64
     
 branches:
   only:
@@ -16,7 +16,6 @@ build_script:
  - cd %APPVEYOR_BUILD_FOLDER%
  - dir
  - set
- - dir /s C:\Qt\5.10.1\
  - qmake 
  
 after_build:
