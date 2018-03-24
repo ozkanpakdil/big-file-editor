@@ -38,12 +38,12 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "release\big-file-editor.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Charts.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "debug\big-file-editor.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Qt\5.9\msvc2017_64\bin\Qt5Charts.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Qt\5.9\msvc2017_64\bin\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Qt\5.9\msvc2017_64\bin\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Qt\5.9\msvc2017_64\bin\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Qt\5.9\msvc2017_64\bin\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
