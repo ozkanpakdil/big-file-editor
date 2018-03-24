@@ -11,7 +11,6 @@ branches:
 install:
   - set Path=%QT5%\bin;%Path%
   - choco install -y InnoSetup
-  - qmake -v
   - if %QTDIR:_64=%==%QTDIR% ( set ARCH=x86 ) else set ARCH=x64
   - if %QTDIR:_64=%==%QTDIR% ( set OPENSSL_ROOT_DIR=C:\OpenSSL-Win32 ) else set OPENSSL_ROOT_DIR=C:\OpenSSL-Win64
   - if %QTDIR:msvc=%==%QTDIR% g++ --version
