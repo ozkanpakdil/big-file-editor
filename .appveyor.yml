@@ -1,12 +1,16 @@
+environment:
+  MSBUILD_FLAGS: /verbosity:minimal /maxcpucount
+  matrix:
+  - CMAKE_GENERATOR: "Visual Studio 15 2017 Win64"
+    QT5: C:\Qt\5.10.1\msvc2017_64
+    
 branches:
   only:
     - master
-    - devel
 
 install:
-  - set QTDIR=C:\Qt\5.10.1\msvc2017_64
+  - set Path=%QT5%\bin;%Path%
   - choco install -y InnoSetup
-  - set PATH=%QTDIR%\bin;%MINGWDIR%\bin;C:\Program Files (x86)\CMake\bin;%PATH%
   - qmake -v
   - if %QTDIR:_64=%==%QTDIR% ( set ARCH=x86 ) else set ARCH=x64
   - if %QTDIR:_64=%==%QTDIR% ( set OPENSSL_ROOT_DIR=C:\OpenSSL-Win32 ) else set OPENSSL_ROOT_DIR=C:\OpenSSL-Win64
