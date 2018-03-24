@@ -24,7 +24,6 @@ DefaultGroupName={#MyAppName}
 LicenseFile=license.txt
 InfoBeforeFile=beforeinstall.txt
 InfoAfterFile=afterinstall.txt
-OutputDir={pf}\mascix\{#MyAppName}
 OutputBaseFilename=setupbigfileeditor
 SetupIconFile=Notepad-icon.ico
 Compression=lzma
