@@ -16,7 +16,7 @@ build_script:
  - cd %APPVEYOR_BUILD_FOLDER%
  - dir
  - set
- - dir %QT5%\bin
+ - dir C:\Qt\5.10.1\msvc2017_64\bin
  - qmake 
  
 after_build:
