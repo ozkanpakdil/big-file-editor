@@ -14,6 +14,8 @@ install:
 
 build_script:
  - cd %APPVEYOR_BUILD_FOLDER%
+ - dir
+ - set
  - cmake . -G "MinGW Makefiles" -DQTERM_ENABLE_SCRIPT_DEBUGGER=On -DCMAKE_BUILD_TYPE=Release -DQT5=Yes
  
 after_build:
