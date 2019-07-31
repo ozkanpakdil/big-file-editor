@@ -19,7 +19,7 @@ deploy:
   description: 'Windows Release'
   provider: GitHub
   auth_token:
-    secure: V9IDB6mgddkXfUXbEhwPLcg7fS6XKasuuIxdaSR7S3xF1Sx5prqkOZxcjN9Ogq2c # your encrypted token from GitHub
+    secure: DfVhtXbEs+QEXip7f+Pt9Yon1UeYhlFnJpcY9yu3rhyg4bIOe7vUwEC5+zMbQTJt # your encrypted token from GitHub
   artifact: /.*\.exe/
   on:
     appveyor_repo_tag: false        # deploy on tag push only
