@@ -7,6 +7,8 @@
 #define MyAppURL "http://www.mascix.com/"
 #define MyAppExeName "big-file-editor.exe"
 
+#define QtDir "C:\Qt\5.9\msvc2017_64\bin"
+
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
@@ -38,15 +40,20 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Files]
 Source: "debug\big-file-editor.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Qt\5.9\msvc2017_64\bin\Qt5Charts.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Qt\5.9\msvc2017_64\bin\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Qt\5.9\msvc2017_64\bin\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Qt\5.9\msvc2017_64\bin\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Qt\5.9\msvc2017_64\bin\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Qt\5.9\msvc2017_64\bin\Qt5Guid.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Qt\5.9\msvc2017_64\bin\Qt5Networkd.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Qt\5.9\msvc2017_64\bin\Qt5Widgetsd.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Qt\5.9\msvc2017_64\bin\Qt5Cored.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#QtDir}\Qt5Charts.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#QtDir}\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#QtDir}\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#QtDir}\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#QtDir}\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#QtDir}\Qt5Guid.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#QtDir}\Qt5Networkd.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#QtDir}\Qt5Widgetsd.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#QtDir}\Qt5Cored.dll"; DestDir: "{app}"; Flags: ignoreversion
+
+Source: "{#QtDir}\..\plugins\platforms\qminimal.dll"; DestDir: "{app}\platforms"; Flags: ignoreversion
+Source: "{#QtDir}\..\plugins\platforms\qoffscreen.dll"; DestDir: "{app}\platforms"; Flags: ignoreversion
+Source: "{#QtDir}\..\plugins\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Flags: ignoreversion
+
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
