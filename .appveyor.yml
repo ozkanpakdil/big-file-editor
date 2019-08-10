@@ -3,7 +3,7 @@ install:
   - choco install -y InnoSetup
 
 build_script:
-  - qmake big-file-editor.pro CONFIG+=static
+  - qmake big-file-editor.pro
   - mingw32-make
   - del /q release\*.h release\*.cpp release\*.o
   - windeployqt release\big-file-editor.exe
