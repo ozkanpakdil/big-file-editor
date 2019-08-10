@@ -39,20 +39,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "debug\big-file-editor.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\Qt5Charts.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\Qt5Guid.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\Qt5Networkd.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\Qt5Widgetsd.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#QtDir}\Qt5Cored.dll"; DestDir: "{app}"; Flags: ignoreversion
-
-Source: "{#QtDir}\..\plugins\platforms\qminimal.dll"; DestDir: "{app}\platforms"; Flags: ignoreversion
-Source: "{#QtDir}\..\plugins\platforms\qoffscreen.dll"; DestDir: "{app}\platforms"; Flags: ignoreversion
-Source: "{#QtDir}\..\plugins\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Flags: ignoreversion
+Source: "release\big-file-editor.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

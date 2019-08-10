@@ -19,12 +19,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect((QObject*)ui->textEdit->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrollTheFile(int)));
-    connect((QObject*)ui->textEdit, SIGNAL(goLine(int)), this, SLOT(goLine(int)));
-    connect((QObject*)ui->textEdit, SIGNAL(goPage(int)), this, SLOT(goPage(int)));
-    connect((QObject*)ui->textEdit, SIGNAL(goToEOF()), this, SLOT(goToEOF()));
+    connect(ui->textEdit->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrollTheFile(int)));
+    connect(ui->textEdit, SIGNAL(goLine(int)), this, SLOT(goLine(int)));
+    connect(ui->textEdit, SIGNAL(goPage(int)), this, SLOT(goPage(int)));
+    connect(ui->textEdit, SIGNAL(goToEOF()), this, SLOT(goToEOF()));
 
-    connect((QObject*)ui->textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChanged()));
+    connect(ui->textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChanged()));
     currentFileLineNumber=0;
 
 }
@@ -156,7 +156,7 @@ void MainWindow::on_actionGo_to_line_triggered()
     }
 
     bool ok;
-    int gotoLineNumber = QInputDialog::getDouble(this, tr("Input Line Number"),
+    int gotoLineNumber = QInputDialog::getInt(this, tr("Input Line Number"),
                                                   tr("Line Number:"), 25, 0, 100, 1,&ok);
     if(ok && gotoLineNumber>ui->textEdit->document()->lineCount()){
         ui->textEdit->setVisible(false);
