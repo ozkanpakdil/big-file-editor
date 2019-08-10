@@ -5,6 +5,8 @@ install:
 build_script:
   - qmake big-file-editor.pro CONFIG+=static
   - mingw32-make
+  - del /q release\*.h release\*.cpp release\*.o
+  - windeployqt release\big-file-editor.exe
   
 after_build:
   - iscc big-file-editor-installer.iss

@@ -39,7 +39,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "release\big-file-editor.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
