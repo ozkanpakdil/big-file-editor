@@ -1,7 +1,7 @@
 image: Visual Studio 2017
 
 install:
-  - set Path=%QT5%\bin;%Path%
+  - set Path=C:\Qt\5.13.0\bin;%Path%
   - choco install -y InnoSetup
 
 before_build:
