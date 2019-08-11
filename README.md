@@ -1,4 +1,5 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/je31oh7roigybhsx?svg=true)](https://ci.appveyor.com/project/ozkanpakdil/big-file-editor)
+Windows:[![Build status](https://ci.appveyor.com/api/projects/status/je31oh7roigybhsx?svg=true)](https://ci.appveyor.com/project/ozkanpakdil/big-file-editor)
+Linux&OSX:[![Build Status](https://travis-ci.org/ozkanpakdil/big-file-editor.svg?branch=master)](https://travis-ci.org/ozkanpakdil/big-file-editor)
 
 this project's aim is to help who needs to open up a big file and 
 have to browse on it mostly on windows or ofcourse you may use it under linux :)
