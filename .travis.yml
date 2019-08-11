@@ -23,11 +23,11 @@ install:
       ;
     fi
 
-before_script:
-  - qmake -v
-  - qmake -r -Wall -Wlogic -Wparser CONFIG+=debug_and_release "$TRAVIS_BUILD_DIR"
-
 script:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then qmake -qt=qt5 CONFIG+=$CONFIG; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]];   then /usr/local/opt/qt5/bin/qmake CONFIG+=$CONFIG OPENSSLDIR=/usr/local/opt/openssl PROTOBUFDIR=/usr/local/opt/protobuf; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      qmake ; 
+    fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
+      /usr/local/opt/qt5/bin/qmake OPENSSLDIR=/usr/local/opt/openssl PROTOBUFDIR=/usr/local/opt/protobuf; 
+    fi
   - make
