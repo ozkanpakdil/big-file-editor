@@ -8,7 +8,7 @@ simple demo from linux machine.
 http://youtu.be/nYun58jPUtw
 
 if you want to download compiled version visit 
-http://sourceforge.net/projects/bigfileeditor
+https://github.com/ozkanpakdil/big-file-editor/releases
 
 Implemented Tasks
 
