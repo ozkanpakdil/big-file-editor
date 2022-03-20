@@ -1,11 +1,11 @@
 image: Visual Studio 2022
 
 install:
-  - CALL "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
-  - SET PATH=%PATH%;C:\Qt\5.15\msvc2019_64\bin;%CACHE_DIR%\jom
   - choco install -y InnoSetup
 
 build_script:
+  - CALL "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+  - SET PATH=%PATH%;C:\Qt\5.15\msvc2019_64\bin;%CACHE_DIR%\jom
   - qmake big-file-editor.pro
   - make
   - del /q release\*.h release\*.cpp release\*.o
