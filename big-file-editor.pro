@@ -10,8 +10,7 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
     version.h \
-    texteditor.h \
-    BFEApplication.h
+    texteditor.h 
 
 FORMS    += mainwindow.ui
 

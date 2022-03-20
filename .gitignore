@@ -4,4 +4,7 @@ build*
 .qmake.stash
 Makefile*
 ui_*
+moc_*
 *pro.user
+*.o
+big-file-editor
