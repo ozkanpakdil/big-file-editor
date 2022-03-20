@@ -1,13 +1,13 @@
 image: Visual Studio 2022
 
 install:
-  - set QTDIR=C:\Qt\5.15.2\mingw81_64
-  - set PATH=%PATH%;%QTDIR%\bin;C:\MinGW\bin;C:\Qt\Tools\mingw64\bin
+  - set QTDIR=C:\Qt\5.15.2\mingw81_32
+  - set PATH=%PATH%;%QTDIR%\bin;C:\MinGW\bin;C:\Qt\Tools\mingw32\bin
   - choco install -y InnoSetup
 
 build_script:
   - qmake big-file-editor.pro
-  - make -j2
+  - mingw32-make
   - del /q release\*.h release\*.cpp release\*.o
   - windeployqt release\big-file-editor.exe
   
