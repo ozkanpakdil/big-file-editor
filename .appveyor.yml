@@ -7,7 +7,7 @@ install:
 
 build_script:
   - qmake big-file-editor.pro
-  - jom -j2 -f Makefile.Release
+  - make
   - del /q release\*.h release\*.cpp release\*.o
   - windeployqt release\big-file-editor.exe
   
