@@ -5,10 +5,6 @@ install:
 
 build_script:
   - CALL "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
-  - dir C:\Qt\5.15\msvc2019_64\bin
-  - dir C:\Qt\5.15\msvc2019_64\
-  - dir C:\Qt\5.15\
-  - env
   - SET PATH=%PATH%;C:\Qt\5.15\msvc2019_64\bin;%CACHE_DIR%\jom
   - qmake big-file-editor.pro
   - nmake
