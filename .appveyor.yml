@@ -1,5 +1,8 @@
+image: Visual Studio 2022
+
 install:
-  - set Path=C:\Qt\5.13.0\mingw73_64\bin;C:\QT\Tools\mingw730_64\bin;%Path%
+  - set QTDIR=C:\Qt\5.15.2\mingw81_64
+  - set PATH=%PATH%;%QTDIR%\bin;C:\MinGW\bin;C:\Qt\Tools\mingw64\bin
   - choco install -y InnoSetup
 
 build_script:
