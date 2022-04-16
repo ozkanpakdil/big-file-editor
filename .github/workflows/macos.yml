@@ -30,7 +30,9 @@ jobs:
       - name: Generate release tag
         id: tag
         run: |
-          echo "::set-output name=release_tag::MacOs_$(date +"%Y.%m.%d_%H-%M")"
+          sleep 160
+          TAGNAME=`curl https://ci.appveyor.com/api/projects/ozkanpakdil/big-file-editor|jq -r '.build.version'`
+          echo "::set-output name=release_tag::$TAGNAME"
       - name: Release with Notes
         uses: softprops/action-gh-release@v1
         with:
