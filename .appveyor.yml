@@ -1,59 +1,28 @@
-environment:
-  matrix:
+image: Visual Studio 2022
 
-  - job_name: win64
-    appveyor_build_worker_image: Visual Studio 2022
+install:
+  - choco install -y InnoSetup
 
-  - job_name: linux_x64
-    appveyor_build_worker_image: Ubuntu1804
+build_script:
+  - CALL "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+  - SET PATH=%PATH%;C:\Qt\5.15\msvc2019_64\bin;%CACHE_DIR%\jom
+  - qmake big-file-editor.pro
+  - nmake
+  - del /q release\*.h release\*.cpp release\*.o
+  - windeployqt release\big-file-editor.exe
+  
+after_build:
+  - iscc big-file-editor-installer.iss
+  - move Output\setupbigfileeditor.exe .
 
-  - job_name: macOS_x64
-    appveyor_build_worker_image: macos
+artifacts:
+ - path: setupbigfileeditor.exe
 
-for:
-  - matrix:
-      only:
-        - job_name: win64
-    install:
-      - choco install -y InnoSetup
-
-    build_script:
-      - CALL "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
-      - SET PATH=%PATH%;C:\Qt\5.15\msvc2019_64\bin;%CACHE_DIR%\jom
-      - qmake big-file-editor.pro
-      - nmake
-      - del /q release\*.h release\*.cpp release\*.o
-      - windeployqt release\big-file-editor.exe
-
-    after_build:
-      - iscc big-file-editor-installer.iss
-      - move Output\setupbigfileeditor.exe .
-
-    artifacts:
-     - path: setupbigfileeditor.exe
-
-    deploy:
-      description: 'Windows Release'
-      provider: GitHub
-      auth_token:
-        secure: +8hiOuhkAqx4Mw7dJGWseZaT0mimAQKeyy4y0qpEEzMXCF8zRNs37N9jOvnlQCI/ # your encrypted token from GitHub
-      artifact: /.*\.exe/
-      on:
-        appveyor_repo_tag: false        # deploy on tag push only
-
-  - matrix:
-      only:
-        - job_name: macOS_x64
-    install:
-    - PATH=$HOME/Qt/5.15/clang_64/bin:$PATH
-    build_script:
-    - qmake big-file-editor.pro
-    - make
-    deploy:
-      description: 'Macos Release'
-      provider: GitHub
-      auth_token:
-        secure: +8hiOuhkAqx4Mw7dJGWseZaT0mimAQKeyy4y0qpEEzMXCF8zRNs37N9jOvnlQCI/ # your encrypted token from GitHub
-      artifact: /.*\.dmg/
-      on:
-        appveyor_repo_tag: false        # deploy on tag push only
+deploy:
+  description: 'Windows Release'
+  provider: GitHub
+  auth_token:
+    secure: +8hiOuhkAqx4Mw7dJGWseZaT0mimAQKeyy4y0qpEEzMXCF8zRNs37N9jOvnlQCI/ # your encrypted token from GitHub
+  artifact: /.*\.exe/
+  on:
+    appveyor_repo_tag: false        # deploy on tag push only
