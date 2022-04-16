@@ -25,5 +25,11 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: big-file-editor-qt5.dmg
+          name: big-file-editor.dmg
           path: big-file-editor.dmg
+      - name: Release with Notes
+        uses: softprops/action-gh-release@v1
+        with:
+          files: big-file-editor.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
