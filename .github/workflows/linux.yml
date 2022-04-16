@@ -10,8 +10,6 @@ jobs:
     name: Qt5 build
     runs-on: ubuntu-latest
     steps:
-      - name: Set environment variables
-        run: echo "PATH=/usr/local/opt/qt@5/bin:$PATH" >> $GITHUB_ENV
       - name: Generate release tag
         id: tag
         run: |
@@ -20,7 +18,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install dependencies
-        run: apt install qt5
+        run: sudo apt-get install qt5-default
       - name: Configure build
         run: qmake big-file-editor.pro
       - name: Build project
