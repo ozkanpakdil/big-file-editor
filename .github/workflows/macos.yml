@@ -30,7 +30,7 @@ jobs:
       - name: Generate release tag
         id: tag
         run: |
-          TAGNAME=`curl https://ci.appveyor.com/api/projects/ozkanpakdil/big-file-editor|jq -r '.build.version'-1`
+          TAGNAME=`curl https://ci.appveyor.com/api/projects/ozkanpakdil/big-file-editor|jq -r '.build.buildNumber'-1`
           echo "::set-output name=release_tag::$TAGNAME"
       - name: Release with Notes
         uses: softprops/action-gh-release@v1
