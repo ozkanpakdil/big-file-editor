@@ -27,25 +27,3 @@ jobs:
         with:
           name: big-file-editor-qt5.dmg
           path: big-file-editor.dmg
-
-  qt6:
-    name: Qt6 build
-    runs-on: macos-latest
-    steps:
-      - name: Set environment variables
-        run: echo "PATH=/usr/local/opt/qt@6/bin:$PATH" >> $GITHUB_ENV
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install dependencies
-        run: brew install qt6
-      - name: Configure build
-        run: qmake big-file-editor.pro
-      - name: Build project
-        run: make -j3
-      - name: Create DMG
-        run: macdeployqt big-file-editor.app -dmg
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: big-file-editor-qt6.dmg
-          path: big-file-editor.dmg
