@@ -1,0 +1,43 @@
+name: linux build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  qt5:
+    name: Qt5 build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set environment variables
+        run: echo "PATH=/usr/local/opt/qt@5/bin:$PATH" >> $GITHUB_ENV
+      - name: Generate release tag
+        id: tag
+        run: |
+          TAGNAME=`curl https://ci.appveyor.com/api/projects/ozkanpakdil/big-file-editor|jq -r '.build.buildNumber'`
+          echo "::set-output name=release_tag::1.0.$TAGNAME"
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: apt install qt5
+      - name: Configure build
+        run: qmake big-file-editor.pro
+      - name: Build project
+        run: make -j3
+      - name: Create zip
+        run: |
+          strip big-file-editor
+          tar -jcvf big-file-editor.bz2 big-file-editor
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: big-file-editor.bz2
+          path: big-file-editor.bz2
+      - name: Release with Notes
+        uses: softprops/action-gh-release@v1
+        with:
+          files: big-file-editor.bz2
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
