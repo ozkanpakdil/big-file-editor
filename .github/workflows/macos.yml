@@ -12,6 +12,11 @@ jobs:
     steps:
       - name: Set environment variables
         run: echo "PATH=/usr/local/opt/qt@5/bin:$PATH" >> $GITHUB_ENV
+      - name: Generate release tag
+        id: tag
+        run: |
+          TAGNAME=`curl https://ci.appveyor.com/api/projects/ozkanpakdil/big-file-editor|jq -r '.build.buildNumber'`
+          echo "::set-output name=release_tag::1.0.$TAGNAME"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install dependencies
@@ -27,11 +32,7 @@ jobs:
         with:
           name: big-file-editor.dmg
           path: big-file-editor.dmg
-      - name: Generate release tag
-        id: tag
-        run: |
-          TAGNAME=`curl https://ci.appveyor.com/api/projects/ozkanpakdil/big-file-editor|jq -r '.build.buildNumber'`
-          echo "::set-output name=release_tag::$TAGNAME"
+
       - name: Release with Notes
         uses: softprops/action-gh-release@v1
         with:
