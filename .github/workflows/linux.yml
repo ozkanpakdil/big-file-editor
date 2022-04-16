@@ -26,16 +26,16 @@ jobs:
       - name: Create zip
         run: |
           strip big-file-editor
-          tar -jcvf big-file-editor.bz2 big-file-editor
+          tar -jcvf big-file-editor.linux.bz2 big-file-editor
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: big-file-editor.bz2
-          path: big-file-editor.bz2
+          name: big-file-editor.linux.bz2
+          path: big-file-editor.linux.bz2
       - name: Release with Notes
         uses: softprops/action-gh-release@v1
         with:
-          files: big-file-editor.bz2
+          files: big-file-editor.linux.bz2
           tag_name: ${{ steps.tag.outputs.release_tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
