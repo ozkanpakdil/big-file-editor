@@ -25,25 +25,26 @@ jobs:
         run: make -j3
       - name: Create deb and rpm
         run: |
+          NAME=big-file-editor-1.0.0-${{ steps.tag.outputs.release_tag }}
           strip big-file-editor
           tar -jcvf big-file-editor.linux.bz2 big-file-editor
-          mkdir -p big-file-editor-1.0.0-$TAGNAME/DEBIAN
-          cat <<EOT > big-file-editor-1.0.0-$TAGNAME/DEBIAN/control
+          mkdir -p $NAME/DEBIAN
+          cat <<EOT > $NAME/DEBIAN/control
           Package: big-file-editor
           Section: editors
           Depends: qt5-default (>= 5.11)
           Maintainer: Ozkan Pakdil
-          Version: 1.0.0-$TAGNAME
+          Version: 1.0.0-${{ steps.tag.outputs.release_tag }}
           License: GPL-3.0
           Architecture: any
           Homepage: https://github.com/ozkanpakdil/big-file-editor
           Description: Editing large files
            This program is for opening big files and search/edit inside.
           EOT
-          mkdir -p big-file-editor-1.0.0-$TAGNAME/usr/local/bin
-          cp big-file-editor big-file-editor-1.0.0-$TAGNAME/usr/local/bin
-          dpkg-deb --build big-file-editor-1.0.0-$TAGNAME
-          alien -r big-file-editor-1.0.0-$TAGNAME.deb
+          mkdir -p $NAME/usr/local/bin
+          cp big-file-editor $NAME/usr/local/bin
+          dpkg-deb --build $NAME
+          alien -r $NAME.deb
       - name: Release with Notes
         uses: softprops/action-gh-release@v1
         with:
