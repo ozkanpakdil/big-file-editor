@@ -32,7 +32,6 @@ jobs:
         with:
           name: big-file-editor.dmg
           path: big-file-editor.dmg
-
       - name: Release with Notes
         uses: softprops/action-gh-release@v1
         with:

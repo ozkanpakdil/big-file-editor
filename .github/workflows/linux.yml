@@ -25,8 +25,7 @@ jobs:
         run: make -j3
       - name: Create deb and rpm
         run: |
-          TAGNAME=`curl https://ci.appveyor.com/api/projects/ozkanpakdil/big-file-editor|jq -r '.build.buildNumber'`
-          NAME=big-file-editor-1.0.0-$TAGNAME
+          NAME=big-file-editor-${{ steps.tag.outputs.release_tag }}
           strip big-file-editor
           tar -jcvf big-file-editor.linux.bz2 big-file-editor
           mkdir -p $NAME/DEBIAN
@@ -35,7 +34,7 @@ jobs:
           Section: editors
           Depends: qt5-default (>= 5.11)
           Maintainer: Ozkan Pakdil
-          Version: 1.0.0-$TAGNAME
+          Version: ${{ steps.tag.outputs.release_tag }}
           License: GPL-3.0
           Architecture: any
           Homepage: https://github.com/ozkanpakdil/big-file-editor
