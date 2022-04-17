@@ -36,7 +36,7 @@ jobs:
           Maintainer: Ozkan Pakdil
           Version: ${{ steps.tag.outputs.release_tag }}
           License: GPL-3.0
-          Architecture: any
+          Architecture: amd64
           Homepage: https://github.com/ozkanpakdil/big-file-editor
           Description: Editing large files
            This program is for opening big files and search/edit inside.
