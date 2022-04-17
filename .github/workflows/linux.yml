@@ -46,7 +46,7 @@ jobs:
           [Desktop Entry]
           Encoding=UTF-8
           Exec=/usr/local/bin/big-file-editor
-          Icon=/usr/local/share/big-file-editor/icon.xpm
+          Icon=/usr/local/share/big-file-editor/Notepad-icon.png
           Type=Application
           Terminal=false
           Comment=For editing large files
