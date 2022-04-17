@@ -41,8 +41,23 @@ jobs:
           Description: Editing large files
            This program is for opening big files and search/edit inside.
           EOT
+          cat <<EOT > $NAME/usr/share/applications/big-file-editor.desktop
+          [Desktop Entry]
+          Encoding=UTF-8
+          Exec=/usr/local/bin/big-file-editor
+          Icon=/usr/local/share/big-file-editor/icon.xpm
+          Type=Application
+          Terminal=false
+          Comment=For editing large files
+          Name=Big file editor
+          GenericName=Big file editor
+          StartupNotify=false
+          Categories=Editor;
+          EOT
           mkdir -p $NAME/usr/local/bin
+          mkdir -p $NAME/usr/local/share/big-file-editor
           cp big-file-editor $NAME/usr/local/bin
+          cp Notepad-icon.png $NAME/usr/local/share/big-file-editor
           sudo dpkg-deb --build $NAME
           rm -rf $NAME
           sudo alien --nopatch -r $NAME.deb
