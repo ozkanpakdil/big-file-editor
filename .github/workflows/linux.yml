@@ -43,8 +43,9 @@ jobs:
           EOT
           mkdir -p $NAME/usr/local/bin
           cp big-file-editor $NAME/usr/local/bin
-          dpkg-deb --build $NAME
-          alien -r $NAME.deb
+          sudo dpkg-deb --build $NAME
+          rm -rf $NAME
+          sudo alien -r $NAME.deb
       - name: Release with Notes
         uses: softprops/action-gh-release@v1
         with:
