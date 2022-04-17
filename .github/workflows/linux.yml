@@ -45,13 +45,13 @@ jobs:
           cp big-file-editor $NAME/usr/local/bin
           sudo dpkg-deb --build $NAME
           rm -rf $NAME
-          sudo alien -r $NAME.deb
+          sudo alien --nopatch -r $NAME.deb
       - name: Release with Notes
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            big-file-editor-${{ steps.tag.outputs.release_tag }}.deb
-            big-file-editor-${{ steps.tag.outputs.release_tag }}.rpm
+            *.deb
+            *.rpm
           tag_name: ${{ steps.tag.outputs.release_tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

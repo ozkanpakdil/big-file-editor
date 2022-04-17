@@ -7,4 +7,5 @@ ui_*
 moc_*
 *pro.user
 *.o
+big-file-editor-*
 big-file-editor
