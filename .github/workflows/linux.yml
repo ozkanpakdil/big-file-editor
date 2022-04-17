@@ -41,6 +41,7 @@ jobs:
           Description: Editing large files
            This program is for opening big files and search/edit inside.
           EOT
+          mkdir -p $NAME/usr/share/applications/
           cat <<EOT > $NAME/usr/share/applications/big-file-editor.desktop
           [Desktop Entry]
           Encoding=UTF-8
