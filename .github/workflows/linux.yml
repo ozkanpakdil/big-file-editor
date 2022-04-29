@@ -61,7 +61,7 @@ jobs:
           cp Notepad-icon.png $NAME/usr/local/share/big-file-editor
           sudo dpkg-deb --build $NAME
           rm -rf $NAME
-          sudo alien --nopatch -r $NAME.deb
+          sudo alien --nopatch -rk $NAME.deb
       - name: Release with Notes
         uses: softprops/action-gh-release@v1
         with:
