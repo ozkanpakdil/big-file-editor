@@ -6,8 +6,9 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Setting up release 
-        run: echo "::set-output name=release_date::$(date +'%m-%d-%Y')"
+      - name: Generate release tag
+        id: tag
+        run: echo "::set-output name=release_date::1.0.$(date +'%m%d%Y')"
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install build tools

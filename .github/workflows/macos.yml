@@ -12,8 +12,9 @@ jobs:
     steps:
       - name: Set environment variables
         run: echo "PATH=/usr/local/opt/qt@5/bin:$PATH" >> $GITHUB_ENV
-      - name: Setting up release
-        run: echo "::set-output name=release_date::$(date +'%m-%d-%Y')"
+      - name: Generate release tag
+        id: tag
+        run: echo "::set-output name=release_date::1.0.$(date +'%m%d%Y')"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install dependencies

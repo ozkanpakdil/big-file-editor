@@ -10,8 +10,9 @@ jobs:
     name: Qt5 build
     runs-on: ubuntu-latest
     steps:
-      - name: Setting up release 
-        run: echo "::set-output name=release_date::$(date +'%m-%d-%Y')"
+      - name: Generate release tag
+        id: tag
+        run: echo "::set-output name=release_date::1.0.$(date +'%m%d%Y')"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install Qt
@@ -24,7 +25,7 @@ jobs:
         run: make -j3
       - name: Create deb and rpm
         run: |
-          NAME=big-file-editor-${{ steps.tag.outputs.release_tag }}
+          NAME=big-file-editor-${{ steps.tag.outputs.release_date }}
           strip big-file-editor
           tar -jcvf big-file-editor.linux.bz2 big-file-editor
           mkdir -p $NAME/DEBIAN
@@ -33,7 +34,7 @@ jobs:
           Section: editors
           Depends: qt5-default (>= 5.11)
           Maintainer: Ozkan Pakdil
-          Version: ${{ steps.tag.outputs.release_tag }}
+          Version: ${{ steps.tag.outputs.release_date }}
           License: GPL-3.0
           Architecture: amd64
           Homepage: https://github.com/ozkanpakdil/big-file-editor
