@@ -1,4 +1,4 @@
-name: CI
+name: Windows CI
 
 on: [push]
 
@@ -12,9 +12,10 @@ jobs:
       - name: Install build tools
         run: choco install -y InnoSetup qt5-default visualstudio2022community
       - name: Build
+        shell: cmd
         run: |
-          "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
-          echo "C:\Qt\5.15.2\mingw81_64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          CALL "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+          SET PATH=%PATH%;C:\Qt\5.15.2\mingw81_64\bin;%CACHE_DIR%\jom
           qmake big-file-editor.pro
           nmake
           del /q release\*.h release\*.cpp release\*.o
