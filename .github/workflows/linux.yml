@@ -12,9 +12,7 @@ jobs:
     steps:
       - name: Generate release tag
         id: tag
-        run: |
-          TAGNAME=`curl https://ci.appveyor.com/api/projects/ozkanpakdil/big-file-editor|jq -r '.build.buildNumber'`
-          echo "::set-output name=release_tag::1.0.$TAGNAME"
+        run: echo "::set-output name=release_tag::1.0.${{ github.run_number }}"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install Qt

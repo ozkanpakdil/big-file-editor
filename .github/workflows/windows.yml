@@ -5,19 +5,20 @@ on: [push]
 jobs:
   build:
     runs-on: windows-latest
-
     steps:
+      - name: Generate release tag
+        id: tag
+        run: echo "::set-output name=release_tag::1.0.${{ github.run_number }}"
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install build tools
-        run: choco install -y InnoSetup qt5-default visualstudio2022community
+        run: choco install -y InnoSetup qt5-default make #visualstudio2022buildtools windows-sdk-10.1 VisualCppBuildTools vcredist140
       - name: Build
         shell: cmd
         run: |
-          CALL "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
-          SET PATH=%PATH%;C:\Qt\5.15.2\mingw81_64\bin;%CACHE_DIR%\jom
+          SET PATH=%PATH%;C:\Qt\5.15.2\mingw81_64\bin;
           qmake big-file-editor.pro
-          nmake
+          make
           del /q release\*.h release\*.cpp release\*.o
           windeployqt release\big-file-editor.exe
 
@@ -32,13 +33,11 @@ jobs:
           name: setupbigfileeditor
           path: setupbigfileeditor.exe
 
-      - name: Deploy to GitHub
-        if: github.ref == 'refs/heads/master'
-        uses: actions/upload-release-asset@v1
+      - name: Release with Notes
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./setupbigfileeditor.exe
+          tag_name: ${{ steps.tag.outputs.release_tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./setupbigfileeditor.exe
-          asset_name: setupbigfileeditor.exe
-          asset_content_type: application/octet-stream
