@@ -13,7 +13,7 @@
 #include <QTextStream>
 #include <QFile>
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
@@ -25,23 +25,24 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->textEdit, SIGNAL(goToEOF()), this, SLOT(goToEOF()));
 
     connect(ui->textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(cursorPositionChanged()));
-    currentFileLineNumber=0;
-
+    currentFileLineNumber = 0;
 }
 
 MainWindow::~MainWindow()
 {
-    if(!file){
+    if (!file)
+    {
         file->close();
         delete file;
     }
     delete ui;
 }
 
-void MainWindow::changeEvent(QEvent *e)
+void MainWindow::changeEvent(QEvent* e)
 {
     QMainWindow::changeEvent(e);
-    switch (e->type()) {
+    switch (e->type())
+    {
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;
@@ -57,51 +58,58 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionAbout_triggered()
 {
-    QMessageBox::about(this,"Big File Editor","Opens big files mostly more then GBs <br />for any problem feel free to contact via <a href='http://mascix.com'>my site</a>");
+    QMessageBox::about(this, "Big File Editor",
+                       "Opens big files mostly more then GBs <br />for any problem feel free to contact via <a href='http://mascix.com'>my site</a>");
 }
 
 void MainWindow::on_actionOpen_triggered()
 {
     QFontMetrics fm(ui->textEdit->font());
     QString tmpFileName = QFileDialog::getOpenFileName(this,
-         tr("Open File"), "~", tr("Any File (*.*)"));
+                                                       tr("Open File"), "~", tr("Any File (*.*)"));
 
-    if(tmpFileName=="~" || tmpFileName=="")
+    if (tmpFileName == "~" || tmpFileName == "")
         return;
-    fileName=tmpFileName;
+    fileName = tmpFileName;
 
     ui->textEdit->clear();
-    pageSize=this->height()/(fm.height());
+    pageSize = this->height() / (fm.height());
 
-    file= new QFile(fileName);
-    qDebug()<<"file opened:"<<file->open(QIODevice::ReadOnly | QIODevice::Text);
-    currentFileLineNumber=0;
+    file = new QFile(fileName);
+    qDebug() << "file opened:" << file->open(QIODevice::ReadOnly | QIODevice::Text);
+    currentFileLineNumber = 0;
 
-    for(int i=0;i<pageSize;i++){
+    for (int i = 0; i < pageSize; i++)
+    {
         ui->textEdit->appendPlainText(this->readLineFromFile());
     }
 
-    qDebug()<<"file:"<<fileName;
-    qDebug()<<"lineCount:"<<pageSize;
+    qDebug() << "file:" << fileName;
+    qDebug() << "lineCount:" << pageSize;
 }
 
-void MainWindow::scrollTheFile(int lineIndex){
-    if(!isFileOpened())
+void MainWindow::scrollTheFile(int lineIndex)
+{
+    if (!isFileOpened())
         return;
 
-    if(lineNumberFromWheel > lineIndex){
+    if (lineNumberFromWheel > lineIndex)
+    {
         //NOTE:scrolling up
-
-    }else{
+    }
+    else
+    {
         //scrolling down
     }
-    lineNumberFromWheel=lineIndex;
+    lineNumberFromWheel = lineIndex;
     //qDebug()<<"line index:"<<lineIndex;
 }
 
-QString MainWindow::readLineFromFile(){
-    if(!file->atEnd()){
-        QString line=file->readLine();
+QString MainWindow::readLineFromFile()
+{
+    if (!file->atEnd())
+    {
+        QString line = file->readLine();
         line.chop(1);
         currentFileLineNumber++;
         return line;
@@ -109,229 +117,292 @@ QString MainWindow::readLineFromFile(){
     return "";
 }
 
-void MainWindow::goLine(int sign){
-    qDebug()<<"goLine:"<<sign;
-    if(!isFileOpened())
+void MainWindow::goLine(int sign)
+{
+    qDebug() << "goLine:" << sign;
+    if (!isFileOpened())
         return;
-    if(ui->textEdit->textCursor().atEnd())
-        if(sign==1){//key arrow down
-            ui->textEdit->appendPlainText(this->readLineFromFile());
+    if (ui->textEdit->textCursor().atEnd())
+    {
+        if (sign == 1)
+        {
+            //key arrow down
+            ui->textEdit->moveCursor(QTextCursor::End);
+            auto chars = this->readLineFromFile();
+            if (chars.length() > 0)
+                ui->textEdit->appendPlainText(chars);
         }
-    if(sign==-1){//key arrow up
     }
-}
-void MainWindow::goPage(int sign){
-    qDebug()<<"goPage:"<<sign;
-    if(!isFileOpened())
-        return;
-    if(ui->textEdit->textCursor().atEnd())
-        if(sign==1){//page down
-            for(int i=0;i<pageSize;i++)
-                ui->textEdit->appendPlainText(this->readLineFromFile());
-        }
-    if(sign==-1){//page up
+    if (sign == -1)
+    {
+        //key arrow up
     }
 }
 
-void MainWindow::wheelEvent(QWheelEvent *turning){
-    if(fileName.trimmed()=="")
+void MainWindow::goPage(int sign)
+{
+    qDebug() << "goPage:" << sign;
+    if (!isFileOpened())
+        return;
+    if (ui->textEdit->textCursor().atEnd())
+        if (sign == 1)
+        {
+            //page down
+            for (int i = 0; i < pageSize; i++)
+                ui->textEdit->appendPlainText(this->readLineFromFile());
+        }
+    if (sign == -1)
+    {
+        //page up
+    }
+}
+
+void MainWindow::wheelEvent(QWheelEvent* turning)
+{
+    if (!isFileOpened())
         return;
     //qDebug()<<"wheel:"<<turning->delta();
-    if(turning->delta()>0){
+    if (turning->delta() > 0)
+    {
         //mouse wheel up
-    }else{
+    }
+    else
+    {
         //mouse wheel down
-        if(ui->textEdit->textCursor().atEnd())
-            for(int i=0;i<pageSize;i++)
-                 ui->textEdit->appendPlainText(this->readLineFromFile());
+        ui->textEdit->setDisabled(true);
+
+        if (ui->textEdit->textCursor().atEnd())
+        {
+            for (int i = 0; i < pageSize; i++)
+            {
+                QString s = this->readLineFromFile();
+                if (s.length() > 0)
+                {
+                    ui->textEdit->appendPlainText(s);
+                }
+            }
+        }
+
+        ui->textEdit->setDisabled(false);
+        qApp->processEvents();
     }
     //qDebug()<<"pos:"<< file->pos();
 }
 
 void MainWindow::on_actionGo_to_line_triggered()
 {
-    if(!isFileOpened()){
-        QMessageBox::warning(this,"Open File First","You need to open a file first.");
+    if (!isFileOpened())
+    {
+        QMessageBox::warning(this, "Open File First", "You need to open a file first.");
         return;
     }
 
     bool ok;
     int gotoLineNumber = QInputDialog::getInt(this, tr("Input Line Number"),
-                                                  tr("Line Number:"), 25, 0, 100, 1,&ok);
-    if(ok && gotoLineNumber>ui->textEdit->document()->lineCount()){
+                                              tr("Line Number:"), 25, 0, 100, 1, &ok);
+    if (ok && gotoLineNumber > ui->textEdit->document()->lineCount())
+    {
         ui->textEdit->setVisible(false);
         ui->textEdit->clear();
 
         QString bufferim;
-        for(int i=ui->textEdit->document()->lineCount();i<gotoLineNumber;i++){
-            if(!file->atEnd()){
-                bufferim.append( file->readLine() );
+        for (int i = ui->textEdit->document()->lineCount(); i < gotoLineNumber; i++)
+        {
+            if (!file->atEnd())
+            {
+                bufferim.append(file->readLine());
                 currentFileLineNumber++;
             }
-            if(currentFileLineNumber%10000==0){
+            if (currentFileLineNumber % 10000 == 0)
+            {
                 ui->textEdit->clear();
                 ui->textEdit->appendPlainText(bufferim);
                 bufferim.clear();
                 qApp->processEvents();
             }
         }
-        if(bufferim!=""){
+        if (bufferim != "")
+        {
             ui->textEdit->appendPlainText(bufferim);
             qApp->processEvents();
         }
         ui->textEdit->setVisible(true);
     }
-    if(ok && gotoLineNumber<ui->textEdit->document()->lineCount()){
-        int pos = ui->textEdit->document()->findBlockByLineNumber(gotoLineNumber-1).position();
+    if (ok && gotoLineNumber < ui->textEdit->document()->lineCount())
+    {
+        int pos = ui->textEdit->document()->findBlockByLineNumber(gotoLineNumber - 1).position();
         QTextCursor cursor = ui->textEdit->textCursor();
         cursor.setPosition(pos);
         ui->textEdit->setTextCursor(cursor);
-        qDebug()<<"gone:"<<gotoLineNumber;
+        qDebug() << "gone:" << gotoLineNumber;
     }
 }
-long MainWindow::findTotalFileLineNumbers(){
-    qint64 pozisyon=file->pos();
+
+long MainWindow::findTotalFileLineNumbers()
+{
+    qint64 pozisyon = file->pos();
     file->seek(0);
 
-    long sayac=0;
-    while(!file->atEnd()){
+    long sayac = 0;
+    while (!file->atEnd())
+    {
         file->readLine();
         sayac++;
-        if(sayac%10000){
+        if (sayac % 10000)
+        {
             qApp->processEvents();
         }
     }
     file->seek(pozisyon);
     return sayac;
 }
-void MainWindow::goToEOF(){
-    if(!isFileOpened())
+
+void MainWindow::goToEOF()
+{
+    if (!isFileOpened())
         return;
     ui->textEdit->setVisible(false);
-    long i=0;
+    long i = 0;
     QString bufferim;
-    while(!file->atEnd()){
-        bufferim.append( file->readLine() );
+    while (!file->atEnd())
+    {
+        bufferim.append(file->readLine());
         i++;
-        if(i%10000==0){
+        if (i % 10000 == 0)
+        {
             ui->textEdit->clear();
             ui->textEdit->appendPlainText(bufferim);
             bufferim.clear();
             qApp->processEvents();
-            qDebug()<<"date:"<<QTime::currentTime()<<"file line:"<<i;
-            currentFileLineNumber=i;
+            qDebug() << "date:" << QTime::currentTime() << "file line:" << i;
+            currentFileLineNumber = i;
         }
     }
-    currentFileLineNumber=i;
-    if(!bufferim.isEmpty())
+    currentFileLineNumber = i;
+    if (!bufferim.isEmpty())
         ui->textEdit->appendPlainText(bufferim);
 
-    qDebug()<<"file line:"<<i;
+    qDebug() << "file line:" << i;
     ui->textEdit->setVisible(true);
 }
 
-void MainWindow::cursorPositionChanged(){
-    long currentLineInTheEditor=ui->textEdit->textCursor().blockNumber();
+void MainWindow::cursorPositionChanged()
+{
+    long currentLineInTheEditor = ui->textEdit->textCursor().blockNumber();
 
-    ui->statusBar->showMessage("current line in editor:" + QString::number( currentLineInTheEditor ) +" in file:" +
-                               QString::number(currentFileLineNumber));
+    ui->statusBar->showMessage("current line in editor:" + QString::number(currentLineInTheEditor) + " in file:" +
+        QString::number(currentFileLineNumber));
 }
 
 void MainWindow::on_actionSave_triggered()
 {
-    if(!isFileOpened()){
-        QMessageBox::warning(this,"Open File First","You need to open a file first.");
+    if (!isFileOpened())
+    {
+        QMessageBox::warning(this, "Open File First", "You need to open a file first.");
         return;
     }
     ui->textEdit->setVisible(false);
-    QString saveFileName = QFileDialog::getSaveFileName(this, tr("Save File"), fileName+".out", tr("Any File (*.*)"));
+    QString saveFileName = QFileDialog::getSaveFileName(this, tr("Save File"), fileName + ".out", tr("Any File (*.*)"));
     if (saveFileName.isEmpty())
-             return;
-    qDebug()<<"saveFileName:"<<saveFileName<< "currentFileLineNumber:"<<currentFileLineNumber
-           <<"ui->textEdit->textCursor().blockNumber()"<<ui->textEdit->textCursor().blockNumber()
-              ;
+        return;
+    qDebug() << "saveFileName:" << saveFileName << "currentFileLineNumber:" << currentFileLineNumber
+        << "ui->textEdit->textCursor().blockNumber()" << ui->textEdit->textCursor().blockNumber();
     QString plainTextEditContents = ui->textEdit->toPlainText();
     QStringList lines = plainTextEditContents.split("\n");
-    qDebug()<<"lines:"<<lines.size();
-    qint64 pozisyon=file->pos();
+    qDebug() << "lines:" << lines.size();
+    qint64 pozisyon = file->pos();
 
-    if(currentFileLineNumber != lines.size()){
+    if (currentFileLineNumber != lines.size())
+    {
         //NOTE:user is at the end of file and we need to do some preprocess
         //for(QTextBlock block = document()->begin(); block.isValid(); block = block.next()) {}
         QFile fileSave(saveFileName);
-        if (!fileSave.open(QIODevice::WriteOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"),fileSave.errorString());
+        if (!fileSave.open(QIODevice::WriteOnly))
+        {
+            QMessageBox::information(this, tr("Unable to open file"), fileSave.errorString());
             return;
         }
-        qDebug()<<"file opened.";
+        qDebug() << "file opened.";
         QTextStream out(&fileSave);
 
         file->seek(0);
-        long totalLineCount=this->findTotalFileLineNumbers();
-        ui->statusBar->showMessage("please wait until save done... total lines:"+QString::number(totalLineCount));
+        long totalLineCount = this->findTotalFileLineNumbers();
+        ui->statusBar->showMessage("please wait until save done... total lines:" + QString::number(totalLineCount));
 
-        int sayac=0;
+        int sayac = 0;
 
-        while(sayac<currentFileLineNumber-lines.size()){
-            out<<file->readLine();
+        while (sayac < currentFileLineNumber - lines.size())
+        {
+            out << file->readLine();
             sayac++;
-            if(sayac%1000){
+            if (sayac % 1000)
+            {
                 qApp->processEvents();
             }
         }
 
 
-        foreach(QString line,lines){
-            out<<line<<'\n';
+        foreach(QString line, lines)
+        {
+            out << line << '\n';
             file->readLine();
             sayac++;
-            if(sayac%1000){
+            if (sayac % 1000)
+            {
                 qApp->processEvents();
             }
         }
 
-        while(!file->atEnd()){
-            out<<file->readLine();
+        while (!file->atEnd())
+        {
+            out << file->readLine();
             sayac++;
-            if(sayac%1000){
+            if (sayac % 1000)
+            {
                 qApp->processEvents();
             }
         }
-        qDebug()<<"file closed.";
+        qDebug() << "file closed.";
         fileSave.close();
-
-    }else{
+    }
+    else
+    {
         //NOTE:editor and file is sync so we just need to save all editor to the file and add if there is anymore line
         //from opened file.
         QFile fileSave(saveFileName);
-        if (!fileSave.open(QIODevice::WriteOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"),fileSave.errorString());
+        if (!fileSave.open(QIODevice::WriteOnly))
+        {
+            QMessageBox::information(this, tr("Unable to open file"), fileSave.errorString());
             return;
         }
-        qDebug()<<"file opened.";
+        qDebug() << "file opened.";
         QTextStream out(&fileSave);
         ui->statusBar->showMessage("please wait until save done...");
 
         file->seek(0);
 
-        int sayac=0;
-        foreach(QString line,lines){
-            out<<line<<'\n';
+        int sayac = 0;
+        foreach(QString line, lines)
+        {
+            out << line << '\n';
             file->readLine();
             sayac++;
-            if(sayac%1000){
+            if (sayac % 1000)
+            {
                 qApp->processEvents();
             }
         }
 
-        while(!file->atEnd()){
-            out<<file->readLine();
+        while (!file->atEnd())
+        {
+            out << file->readLine();
             sayac++;
-            if(sayac%1000){
+            if (sayac % 1000)
+            {
                 qApp->processEvents();
             }
         }
-        qDebug()<<"file closed.";
+        qDebug() << "file closed.";
         fileSave.close();
     }
     file->seek(pozisyon);
@@ -340,46 +411,53 @@ void MainWindow::on_actionSave_triggered()
 
 void MainWindow::on_actionSearch_triggered()
 {
-    if(!isFileOpened())
+    if (!isFileOpened())
         return;
     bool ok;
     QString searchWord = QInputDialog::getText(this, tr("Input Search Phrase"),
-                                              tr("Word:"), QLineEdit::Normal,
-                                               "hele",&ok);
+                                               tr("Word:"), QLineEdit::Normal,
+                                               "hele", &ok);
 
-    if (ok && !searchWord.isEmpty()){
+    if (ok && !searchWord.isEmpty())
+    {
         ui->textEdit->setVisible(false);
         file->seek(0);
 
-        long i=0;
+        long i = 0;
         QString bufferim;
-        while(!file->atEnd()){
-            bufferim.append( file->readLine() );
+        while (!file->atEnd())
+        {
+            bufferim.append(file->readLine());
             i++;
-            if(i%10000==0){
+            if (i % 10000 == 0)
+            {
                 ui->textEdit->clear();
                 ui->textEdit->appendPlainText(bufferim);
                 bufferim.clear();
                 qApp->processEvents();
-                qDebug()<<"date:"<<QTime::currentTime()<<"file line:"<<i;
-                currentFileLineNumber=i;
-                if(!ui->textEdit->document()->find(searchWord,Qt::CaseInsensitive).isNull()){
-                    qDebug()<<"found the word";
+                qDebug() << "date:" << QTime::currentTime() << "file line:" << i;
+                currentFileLineNumber = i;
+                if (!ui->textEdit->document()->find(searchWord, Qt::CaseInsensitive).isNull())
+                {
+                    qDebug() << "found the word";
                     break;
                 }
             }
         }
-        currentFileLineNumber=i;
-        if(!bufferim.isEmpty()){
+        currentFileLineNumber = i;
+        if (!bufferim.isEmpty())
+        {
             ui->textEdit->appendPlainText(bufferim);
-            if(!ui->textEdit->document()->find(searchWord,Qt::CaseInsensitive).isNull()){
-                qDebug()<<"found the word";
+            if (!ui->textEdit->document()->find(searchWord, Qt::CaseInsensitive).isNull())
+            {
+                qDebug() << "found the word";
             }
         }
 
         ui->textEdit->setVisible(true);
-        if(!ui->textEdit->document()->find(searchWord,Qt::CaseInsensitive).isNull()){
-            QTextCursor cursor = ui->textEdit->document()->find(searchWord,Qt::CaseInsensitive);
+        if (!ui->textEdit->document()->find(searchWord, Qt::CaseInsensitive).isNull())
+        {
+            QTextCursor cursor = ui->textEdit->document()->find(searchWord, Qt::CaseInsensitive);
             cursor.beginEditBlock();
             cursor.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
             cursor.endEditBlock();

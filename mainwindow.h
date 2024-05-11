@@ -13,10 +13,9 @@ class MainWindow : public QMainWindow {
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    bool isFileOpened(){
-        if(fileName.trimmed()=="")
-            return false;
-        return true;
+    bool isFileOpened()
+    {
+        return (fileName.trimmed() != "");
     }
 
 protected:
