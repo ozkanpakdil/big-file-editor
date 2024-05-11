@@ -1,0 +1,43 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install build tools
+        run: choco install -y InnoSetup qt5-default visualstudio2022community
+      - name: Build
+        run: |
+          "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+          echo "C:\Qt\5.15.2\mingw81_64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          qmake big-file-editor.pro
+          nmake
+          del /q release\*.h release\*.cpp release\*.o
+          windeployqt release\big-file-editor.exe
+
+      - name: After build
+        run: |
+          iscc big-file-editor-installer.iss
+          move Output\setupbigfileeditor.exe .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: setupbigfileeditor
+          path: setupbigfileeditor.exe
+
+      - name: Deploy to GitHub
+        if: github.ref == 'refs/heads/master'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./setupbigfileeditor.exe
+          asset_name: setupbigfileeditor.exe
+          asset_content_type: application/octet-stream

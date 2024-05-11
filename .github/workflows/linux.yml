@@ -17,8 +17,10 @@ jobs:
           echo "::set-output name=release_tag::1.0.$TAGNAME"
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
       - name: Install dependencies
-        run: sudo apt-get install qt5-default alien build-essential fakeroot devscripts
+        run: sudo apt-get install alien build-essential fakeroot devscripts
       - name: Configure build
         run: qmake big-file-editor.pro
       - name: Build project
