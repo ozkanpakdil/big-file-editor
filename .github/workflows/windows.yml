@@ -6,9 +6,8 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Generate release tag
-        id: tag
-        run: echo "::set-output name=release_tag::1.0.${{ github.run_number }}"
+      - name: Setting up release 
+        run: echo "::set-output name=release_date::$(date +'%m-%d-%Y')"
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install build tools
@@ -38,6 +37,6 @@ jobs:
         with:
           files: |
             ./setupbigfileeditor.exe
-          tag_name: ${{ steps.tag.outputs.release_tag }}
+          tag_name: ${{ steps.tag.outputs.release_date }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
