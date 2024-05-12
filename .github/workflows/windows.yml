@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Install build tools
         run: |
-          choco install -y InnoSetup qt5-default make pip
+          choco install -y InnoSetup qt5-default make
       - name: Build
         shell: cmd
         run: |
