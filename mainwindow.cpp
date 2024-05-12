@@ -79,10 +79,14 @@ void MainWindow::on_actionOpen_triggered()
     qDebug() << "file opened:" << file->open(QIODevice::ReadOnly | QIODevice::Text);
     currentFileLineNumber = 0;
 
+    QString buffer;
     for (int i = 0; i < pageSize; i++)
     {
-        ui->textEdit->appendPlainText(this->readLineFromFile());
+        buffer.append(this->readLineFromFile());
+        buffer.append('\n');
     }
+    ui->textEdit->setWordWrapMode(QTextOption::NoWrap);
+    ui->textEdit->setPlainText(buffer);
 
     qDebug() << "file:" << fileName;
     qDebug() << "lineCount:" << pageSize;
@@ -161,8 +165,7 @@ void MainWindow::wheelEvent(QWheelEvent* turning)
 {
     if (!isFileOpened())
         return;
-    //qDebug()<<"wheel:"<<turning->delta();
-    if (turning->delta() > 0)
+    if (turning->angleDelta().y() > 0)
     {
         //mouse wheel up
     }

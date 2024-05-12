@@ -1,7 +1,6 @@
 #ifndef TEXTEDITOR_H
 #define TEXTEDITOR_H
 
-#include <QTextEdit>
 #include <QPlainTextEdit>
 
 class TextEditor : public QPlainTextEdit

@@ -120,7 +120,6 @@
  <customwidgets>
   <customwidget>
    <class>TextEditor</class>
-   <extends>QTextEdit</extends>
    <header>texteditor.h</header>
   </customwidget>
  </customwidgets>

@@ -28,6 +28,6 @@ void TextEditor::keyPressEvent ( QKeyEvent * event ){
     if(event->key()==Qt::Key_End && event->modifiers()==Qt::ControlModifier){
         emit goToEOF();
     }
-
 }
+
 
