@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget* parent) :
 {
     ui->setupUi(this);
 
+    file = nullptr;
+
     connect(ui->textEdit->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(scrollTheFile(int)));
     connect(ui->textEdit, SIGNAL(goLine(int)), this, SLOT(goLine(int)));
     connect(ui->textEdit, SIGNAL(goPage(int)), this, SLOT(goPage(int)));
@@ -30,7 +32,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
 MainWindow::~MainWindow()
 {
-    if (!file)
+    if (file)
     {
         file->close();
         delete file;
@@ -74,7 +76,12 @@ void MainWindow::on_actionOpen_triggered()
 
     ui->textEdit->clear();
     pageSize = this->height() / (fm.height());
+    if (pageSize <= 0) pageSize = 20; // fallback
 
+    if (file) {
+        file->close();
+        delete file;
+    }
     file = new QFile(fileName);
     qDebug() << "file opened:" << file->open(QIODevice::ReadOnly | QIODevice::Text);
     currentFileLineNumber = 0;
@@ -82,7 +89,9 @@ void MainWindow::on_actionOpen_triggered()
     QString buffer;
     for (int i = 0; i < pageSize; i++)
     {
-        buffer.append(this->readLineFromFile());
+        QString line = this->readLineFromFile();
+        if (line.isEmpty() && file->atEnd()) break;
+        buffer.append(line);
         buffer.append('\n');
     }
     ui->textEdit->setWordWrapMode(QTextOption::NoWrap);
@@ -114,7 +123,10 @@ QString MainWindow::readLineFromFile()
     if (!file->atEnd())
     {
         QString line = file->readLine();
-        line.chop(1);
+        if (line.endsWith('\n'))
+            line.chop(1);
+        if (line.endsWith('\r'))
+            line.chop(1);
         currentFileLineNumber++;
         return line;
     }
@@ -126,12 +138,13 @@ void MainWindow::goLine(int sign)
     qDebug() << "goLine:" << sign;
     if (!isFileOpened())
         return;
-    if (ui->textEdit->textCursor().atEnd())
+
+    if (sign == 1)
     {
-        if (sign == 1)
+        //key arrow down
+        QScrollBar* vScrollBar = ui->textEdit->verticalScrollBar();
+        if (vScrollBar->value() == vScrollBar->maximum())
         {
-            //key arrow down
-            ui->textEdit->moveCursor(QTextCursor::End);
             auto chars = this->readLineFromFile();
             if (chars.length() > 0)
                 ui->textEdit->appendPlainText(chars);
@@ -148,13 +161,21 @@ void MainWindow::goPage(int sign)
     qDebug() << "goPage:" << sign;
     if (!isFileOpened())
         return;
-    if (ui->textEdit->textCursor().atEnd())
-        if (sign == 1)
+
+    if (sign == 1)
+    {
+        //page down
+        QScrollBar* vScrollBar = ui->textEdit->verticalScrollBar();
+        if (vScrollBar->value() == vScrollBar->maximum())
         {
-            //page down
             for (int i = 0; i < pageSize; i++)
-                ui->textEdit->appendPlainText(this->readLineFromFile());
+            {
+                QString s = this->readLineFromFile();
+                if (s.length() > 0)
+                    ui->textEdit->appendPlainText(s);
+            }
         }
+    }
     if (sign == -1)
     {
         //page up
@@ -174,7 +195,8 @@ void MainWindow::wheelEvent(QWheelEvent* turning)
         //mouse wheel down
         ui->textEdit->setDisabled(true);
 
-        if (ui->textEdit->textCursor().atEnd())
+        QScrollBar* vScrollBar = ui->textEdit->verticalScrollBar();
+        if (vScrollBar->value() == vScrollBar->maximum())
         {
             for (int i = 0; i < pageSize; i++)
             {
@@ -189,7 +211,6 @@ void MainWindow::wheelEvent(QWheelEvent* turning)
         ui->textEdit->setDisabled(false);
         qApp->processEvents();
     }
-    //qDebug()<<"pos:"<< file->pos();
 }
 
 void MainWindow::on_actionGo_to_line_triggered()
