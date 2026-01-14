@@ -1,6 +1,9 @@
 name: Windows CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -34,10 +37,9 @@ jobs:
           path: setupbigfileeditor.exe
 
       - name: Release with Notes
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          files: |
-            ./setupbigfileeditor.exe
+          files: setupbigfileeditor.exe
           tag_name: ${{ steps.tag.outputs.release_date }}
           prerelease: true
         env:
