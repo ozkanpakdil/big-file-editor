@@ -20,7 +20,7 @@ jobs:
       - name: Build
         shell: cmd
         run: |
-          qmake big-file-editor.pro
+          qmake6 big-file-editor.pro
           mingw32-make
           del /q release\*.h release\*.cpp release\*.o
           windeployqt release\big-file-editor.exe
