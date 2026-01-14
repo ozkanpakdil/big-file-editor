@@ -25,9 +25,11 @@ jobs:
           target: 'desktop'
           arch: 'win64_mingw'
           set-env: true
+          tools: 'tools_mingw90'
       - name: Build
         shell: cmd
         run: |
+          set PATH=%Qt6_DIR%\..\..\Tools\mingw1310_64\bin;%PATH%
           qmake big-file-editor.pro
           mingw32-make
           del /q release\*.h release\*.cpp release\*.o
