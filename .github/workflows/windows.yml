@@ -16,29 +16,10 @@ jobs:
         uses: actions/checkout@v4
       - name: Install build tools
         run: |
-          choco install -y InnoSetup
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v3
-        with:
-          version: '6.8.*'
-          host: 'windows'
-          target: 'desktop'
-          arch: 'win64_mingw'
-          tools: 'tools_mingw'
-          set-env: true
-          cache: true
+          choco install -y InnoSetup qt6-base-dev make
       - name: Build
         shell: cmd
         run: |
-          set "QT_ROOT=%Qt6_DIR%\..\.."
-          dir /s /b "D:\a\big-file-editor\Qt\g++.exe"
-          for /d %%i in ("%QT_ROOT%\Tools\mingw*") do set MINGW_PATH=%%i\bin
-          if defined MINGW_PATH (
-            echo Found MinGW at %MINGW_PATH%
-            set "PATH=%MINGW_PATH%;%PATH%"
-          ) else (
-            echo MinGW not found in %QT_ROOT%\Tools
-          )
           qmake big-file-editor.pro
           mingw32-make
           del /q release\*.h release\*.cpp release\*.o
