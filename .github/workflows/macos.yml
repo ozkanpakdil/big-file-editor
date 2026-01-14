@@ -16,9 +16,9 @@ jobs:
         run: echo "PATH=$(brew --prefix qt@5)/bin:$PATH" >> $GITHUB_ENV
       - name: Generate release tag
         id: tag
-        run: echo "::set-output name=release_date::1.0.$(date +'%m%d%Y')"
+        run: echo "release_date=1.0.$(date +'%m%d%Y')" >> $GITHUB_OUTPUT
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Configure build
         run: qmake big-file-editor.pro
       - name: Build project
@@ -26,7 +26,7 @@ jobs:
       - name: Create DMG
         run: macdeployqt big-file-editor.app -dmg
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: big-file-editor.dmg
           path: big-file-editor.dmg

@@ -12,9 +12,9 @@ jobs:
     steps:
       - name: Generate release tag
         id: tag
-        run: echo "::set-output name=release_date::1.0.$(date +'%m%d%Y')"
+        run: echo "release_date=1.0.$(date +'%m%d%Y')" >> $GITHUB_OUTPUT
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
       - name: Install dependencies
