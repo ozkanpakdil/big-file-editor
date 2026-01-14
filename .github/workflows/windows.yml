@@ -20,10 +20,37 @@ jobs:
       - name: Build
         shell: cmd
         run: |
-          qmake6 big-file-editor.pro
+          for /d %%i in ("C:\Qt\6*") do (
+            for /d %%j in ("%%i\mingw*") do set QT6_PATH=%%j\bin
+          )
+          if not defined QT6_PATH for /d %%i in ("C:\tools\Qt6*") do set QT6_PATH=%%i\bin
+
+          if defined QT6_PATH (
+            echo Found Qt6 at %QT6_PATH%
+            set "PATH=%QT6_PATH%;%PATH%"
+          ) else (
+            echo Qt6 not found
+          )
+
+          set MINGW_PATH=C:\ProgramData\chocolatey\lib\mingw\tools\install\bin
+          if not exist "%MINGW_PATH%\g++.exe" set MINGW_PATH=C:\ProgramData\mingw64\mingw64\bin
+          
+          if exist "%MINGW_PATH%\g++.exe" (
+            echo Found MinGW at %MINGW_PATH%
+            set "PATH=%MINGW_PATH%;%PATH%"
+          ) else (
+            echo MinGW not found in common locations, checking PATH
+            where g++
+          )
+
+          qmake big-file-editor.pro
           mingw32-make
           del /q release\*.h release\*.cpp release\*.o
-          windeployqt release\big-file-editor.exe
+          if defined QT6_PATH (
+            "%QT6_PATH%\windeployqt.exe" release\big-file-editor.exe
+          ) else (
+            windeployqt release\big-file-editor.exe
+          )
 
       - name: After build
         run: |
