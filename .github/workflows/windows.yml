@@ -25,11 +25,16 @@ jobs:
           target: 'desktop'
           arch: 'win64_mingw'
           set-env: true
-          tools: 'tools_mingw90'
       - name: Build
         shell: cmd
         run: |
-          set PATH=%Qt6_DIR%\..\..\Tools\mingw1310_64\bin;%PATH%
+          for /d %%i in ("%IQTA_TOOLS%\mingw*") do set MINGW_PATH=%%i\bin
+          if defined MINGW_PATH (
+            echo Found MinGW at %MINGW_PATH%
+            set "PATH=%MINGW_PATH%;%PATH%"
+          ) else (
+            echo MinGW not found in %IQTA_TOOLS%
+          )
           qmake big-file-editor.pro
           mingw32-make
           del /q release\*.h release\*.cpp release\*.o
