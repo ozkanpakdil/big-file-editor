@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Generate release tag
         id: tag
+        shell: bash
         run: echo "release_date=1.0.$(date +'%m%d%Y')" >> $GITHUB_OUTPUT
       - name: Checkout code
         uses: actions/checkout@v4
