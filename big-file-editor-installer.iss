@@ -7,7 +7,7 @@
 #define MyAppURL "http://ozkanpakdil.github.io/"
 #define MyAppExeName "big-file-editor.exe"
 
-#define QtDir "C:\Qt\5.9\msvc2017_64\bin"
+#define QtDir "C:\Qt\Qt6\bin"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -21,8 +21,10 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf}\{#MyAppName}
+DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
+ArchitecturesAllowed=x64
+ArchitecturesInstallIn64BitMode=x64
 LicenseFile=license.txt
 InfoBeforeFile=beforeinstall.txt
 InfoAfterFile=afterinstall.txt

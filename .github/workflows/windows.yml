@@ -16,12 +16,19 @@ jobs:
         uses: actions/checkout@v4
       - name: Install build tools
         run: |
-          choco install -y InnoSetup qt6-base-dev make
+          choco install -y InnoSetup
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '6.*'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_mingw'
       - name: Build
         shell: cmd
         run: |
           qmake big-file-editor.pro
-          make
+          mingw32-make
           del /q release\*.h release\*.cpp release\*.o
           windeployqt release\big-file-editor.exe
 

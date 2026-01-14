@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install alien build-essential fakeroot devscripts libgl1-mesa-dev
       - name: Configure build
-        run: qmake big-file-editor.pro
+        run: qmake6 big-file-editor.pro
       - name: Build project
         run: make -j3
       - name: Create deb and rpm
