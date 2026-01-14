@@ -13,11 +13,10 @@ jobs:
         uses: actions/checkout@v4
       - name: Install build tools
         run: |
-          choco install -y InnoSetup qt5-default make
+          choco install -y InnoSetup qt6-base-dev make
       - name: Build
         shell: cmd
         run: |
-          SET PATH=%PATH%;C:\Qt\5.15.2\mingw81_64\bin;C:\Qt\5.15.2\mingw81_64\lib;
           qmake big-file-editor.pro
           make
           del /q release\*.h release\*.cpp release\*.o

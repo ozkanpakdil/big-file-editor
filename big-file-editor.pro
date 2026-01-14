@@ -1,4 +1,4 @@
-#lessThan(QT_MAJOR_VERSION, 5): error("requires Qt 5")
+#lessThan(QT_MAJOR_VERSION, 6): error("requires Qt 6")
 
 TARGET = big-file-editor
 TEMPLATE = app

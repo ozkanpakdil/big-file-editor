@@ -6,14 +6,14 @@ on:
       - master
 
 jobs:
-  qt5:
-    name: Qt5 build
+  qt6:
+    name: Qt6 build
     runs-on: macos-latest
     steps:
       - name: Install dependencies
-        run: brew install qt@5
+        run: brew install qt
       - name: Set environment variables
-        run: echo "PATH=$(brew --prefix qt@5)/bin:$PATH" >> $GITHUB_ENV
+        run: echo "PATH=$(brew --prefix qt)/bin:$PATH" >> $GITHUB_ENV
       - name: Generate release tag
         id: tag
         run: echo "release_date=1.0.$(date +'%m%d%Y')" >> $GITHUB_OUTPUT
