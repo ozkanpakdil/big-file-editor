@@ -18,7 +18,7 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
         with:
-          version: '6.*'
+          version: '6.8.*'
       - name: Install dependencies
         run: sudo apt-get install alien build-essential fakeroot devscripts libgl1-mesa-dev
       - name: Configure build
