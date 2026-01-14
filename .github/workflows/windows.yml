@@ -24,6 +24,7 @@ jobs:
           host: 'windows'
           target: 'desktop'
           arch: 'win64_mingw'
+          set-env: true
       - name: Build
         shell: cmd
         run: |

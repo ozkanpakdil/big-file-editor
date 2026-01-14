@@ -15,12 +15,11 @@ jobs:
         run: echo "release_date=1.0.$(date +'%m%d%Y')" >> $GITHUB_OUTPUT
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v3
-        with:
-          version: '6.8.*'
       - name: Install dependencies
-        run: sudo apt-get install alien build-essential fakeroot devscripts libgl1-mesa-dev
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y alien build-essential fakeroot devscripts libgl1-mesa-dev \
+            qt6-base-dev qt6-base-private-dev libqt6widgets6 libqt6network6 libqt6gui6 libqt6core6
       - name: Configure build
         run: qmake6 big-file-editor.pro
       - name: Build project
