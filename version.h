@@ -7,8 +7,8 @@
 #define VER_PRODUCTVERSION          1,0,0,0
 #define VER_PRODUCTVERSION_STR      "1.0\0"
 
-#define VER_COMPANYNAME_STR         "mascix.com"
-#define VER_FILEDESCRIPTION_STR     "for opening big files/logs/sql dumps from mascix.com"
+#define VER_COMPANYNAME_STR         "ozkanpakdil.github.io"
+#define VER_FILEDESCRIPTION_STR     "for opening big files/logs/sql dumps from ozkanpakdil.github.io"
 #define VER_INTERNALNAME_STR        "big-file-editor"
 #define VER_LEGALCOPYRIGHT_STR      "License: MPL 1.1/GPL 2.0/LGPL 2.1"
 #define VER_LEGALTRADEMARKS1_STR    "All Rights Reserved"
@@ -16,6 +16,6 @@
 #define VER_ORIGINALFILENAME_STR    "big-file-editor.exe"
 #define VER_PRODUCTNAME_STR         "big-file-editor"
 
-#define VER_COMPANYDOMAIN_STR       "mascix.com"
+#define VER_COMPANYDOMAIN_STR       "ozkanpakdil.github.io"
 
 #endif // VERSION_H

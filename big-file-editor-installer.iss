@@ -3,8 +3,8 @@
 
 #define MyAppName "BigFileEditor"
 #define MyAppVersion "0.1"
-#define MyAppPublisher "Mascix"
-#define MyAppURL "http://www.mascix.com/"
+#define MyAppPublisher "OzkanPakdil"
+#define MyAppURL "http://ozkanpakdil.github.io/"
 #define MyAppExeName "big-file-editor.exe"
 
 #define QtDir "C:\Qt\5.9\msvc2017_64\bin"
